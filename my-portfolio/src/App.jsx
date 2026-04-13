@@ -193,18 +193,21 @@ function App() {
               </div>
             </div>
 
-            {/* Profile Image */}
-            <div className="relative flex justify-center items-center h-[500px] w-full" data-aos="fade-left" data-aos-duration="1200">
-              <div className="relative z-10 w-72 h-72 md:w-80 md:h-80">
-                <div className="absolute inset-0 border-2 border-blue-500/30 rounded-full spin-slow"></div>
-                <div className="absolute inset-4 border-2 border-dashed border-teal-500/30 rounded-full spin-reverse"></div>
-                <div className="absolute inset-0 rounded-full overflow-hidden border-4 border-slate-800 shadow-2xl backdrop-blur-md bg-slate-900/40">
-                  <img 
-                    src="/profile.jpg" 
-                    alt="Christian John Jimenez" 
-                    className="w-full h-full object-cover opacity-90" 
-                  />
-                </div>
+            {/* Stats / Info Cards */}
+            <div className="relative flex justify-center items-center w-full" data-aos="fade-left" data-aos-duration="1200">
+              <div className="grid grid-cols-2 gap-4 w-full max-w-sm">
+                {[
+                  { label: 'Years of Study', value: '4+', sub: 'BSIT at QCU' },
+                  { label: 'Tech Stack', value: '12+', sub: 'Languages & Tools' },
+                  { label: 'Internships', value: '3', sub: 'Gov & Private' },
+                  { label: 'Availability', value: 'Open', sub: 'Freelance & Remote' },
+                ].map((stat, i) => (
+                  <div key={i} className="glass-card p-6 rounded-2xl text-center">
+                    <p className="text-3xl font-bold text-gradient">{stat.value}</p>
+                    <p className="text-white font-semibold text-sm mt-1">{stat.label}</p>
+                    <p className="text-slate-500 text-xs mt-0.5">{stat.sub}</p>
+                  </div>
+                ))}
               </div>
             </div>
 
