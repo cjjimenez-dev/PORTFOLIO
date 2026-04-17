@@ -8,6 +8,12 @@ import {
   IdCard, Award, Phone, MapPin, Heart, Layers, Smartphone,
   GitBranch, Database, TestTube, FileCode
 } from 'lucide-react';
+import { 
+  SiHtml5, SiCss3, SiJavascript, SiPhp, SiReact, 
+  SiLaravel, SiFlutter, SiDart, SiGit, SiGithub, 
+  SiAndroidstudio 
+} from 'react-icons/si';
+import { FaJava } from 'react-icons/fa';
 import Aurora from './Aurora';
 import BlurText from './BlurText';
 
@@ -34,18 +40,18 @@ function App() {
   };
 
   const techStack = [
-    { name: 'HTML5', color: 'text-orange-400', bg: 'bg-orange-500/10 border-orange-500/20' },
-    { name: 'CSS3', color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20' },
-    { name: 'JavaScript', color: 'text-yellow-400', bg: 'bg-yellow-500/10 border-yellow-500/20' },
-    { name: 'PHP', color: 'text-indigo-400', bg: 'bg-indigo-500/10 border-indigo-500/20' },
-    { name: 'React', color: 'text-cyan-400', bg: 'bg-cyan-500/10 border-cyan-500/20' },
-    { name: 'Laravel', color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20' },
-    { name: 'Flutter', color: 'text-sky-400', bg: 'bg-sky-500/10 border-sky-500/20' },
-    { name: 'Dart', color: 'text-teal-400', bg: 'bg-teal-500/10 border-teal-500/20' },
-    { name: 'Java', color: 'text-amber-400', bg: 'bg-amber-500/10 border-amber-500/20' },
-    { name: 'Git', color: 'text-rose-400', bg: 'bg-rose-500/10 border-rose-500/20' },
-    { name: 'GitHub', color: 'text-slate-300', bg: 'bg-slate-500/10 border-slate-500/20' },
-    { name: 'Android Studio', color: 'text-green-400', bg: 'bg-green-500/10 border-green-500/20' },
+    { name: 'HTML5', icon: SiHtml5, color: 'text-orange-400', bg: 'bg-orange-500/10 border-orange-500/20' },
+    { name: 'CSS3', icon: SiCss3, color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20' },
+    { name: 'JavaScript', icon: SiJavascript, color: 'text-yellow-400', bg: 'bg-yellow-500/10 border-yellow-500/20' },
+    { name: 'PHP', icon: SiPhp, color: 'text-indigo-400', bg: 'bg-indigo-500/10 border-indigo-500/20' },
+    { name: 'React', icon: SiReact, color: 'text-cyan-400', bg: 'bg-cyan-500/10 border-cyan-500/20' },
+    { name: 'Laravel', icon: SiLaravel, color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20' },
+    { name: 'Flutter', icon: SiFlutter, color: 'text-sky-400', bg: 'bg-sky-500/10 border-sky-500/20' },
+    { name: 'Dart', icon: SiDart, color: 'text-teal-400', bg: 'bg-teal-500/10 border-teal-500/20' },
+    { name: 'Java', icon: FaJava, color: 'text-amber-400', bg: 'bg-amber-500/10 border-amber-500/20' },
+    { name: 'Git', icon: SiGit, color: 'text-rose-400', bg: 'bg-rose-500/10 border-rose-500/20' },
+    { name: 'GitHub', icon: SiGithub, color: 'text-slate-300', bg: 'bg-slate-500/10 border-slate-500/20' },
+    { name: 'Android Studio', icon: SiAndroidstudio, color: 'text-green-400', bg: 'bg-green-500/10 border-green-500/20' },
   ];
 
   return (
@@ -218,14 +224,18 @@ function App() {
         <section className="py-10 bg-slate-900/40 backdrop-blur-sm border-y border-white/5">
           <div className="container mx-auto px-6">
             <p className="text-center text-xs font-semibold tracking-widest text-slate-500 uppercase mb-6">Tech Stack</p>
-            <div className="flex flex-wrap justify-center gap-3">
+            <div className="flex flex-wrap justify-center gap-4">
               {techStack.map((tech) => (
-                <span 
+                <div 
                   key={tech.name} 
-                  className={`px-4 py-2 rounded-full text-sm font-medium border ${tech.bg} ${tech.color}`}
+                  className={`p-4 rounded-full border ${tech.bg} ${tech.color} backdrop-blur-md transition-all duration-300 hover:scale-125 hover:shadow-lg hover:shadow-${tech.color.split('-')[1]}-500/10 group relative`}
+                  title={tech.name}
                 >
-                  {tech.name}
-                </span>
+                  <tech.icon className="w-6 h-6" />
+                  <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-slate-800 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-white/10">
+                    {tech.name}
+                  </span>
+                </div>
               ))}
             </div>
           </div>
