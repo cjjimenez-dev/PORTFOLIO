@@ -14,7 +14,6 @@ import {
   SiAndroidstudio 
 } from 'react-icons/si';
 import { FaJava } from 'react-icons/fa';
-import Aurora from './Aurora';
 import BlurText from './BlurText';
 
 function App() {
@@ -59,14 +58,8 @@ function App() {
   return (
     <div className="antialiased min-h-screen text-slate-200 bg-[#020617] relative">
 
-      {/* FULL PAGE AURORA BACKGROUND */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-50">
-        <Aurora
-          colorStops={["#7cff67","#B19EEF","#5227FF"]}
-          blend={0.5}
-          amplitude={1.0}
-          speed={0.5}
-        />
+      {/* MINIMALIST BACKGROUND */}
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-20 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-800 via-slate-950 to-slate-950">
       </div>
 
       {/* NAVIGATION */}
