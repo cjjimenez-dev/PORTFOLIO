@@ -9,7 +9,7 @@ import {
   GitBranch, Database, TestTube, FileCode
 } from 'lucide-react';
 import { 
-  SiHtml5, SiCss3, SiJavascript, SiPhp, SiReact, 
+  SiHtml5, SiCss, SiJavascript, SiPhp, SiReact, 
   SiLaravel, SiFlutter, SiDart, SiGit, SiGithub, 
   SiAndroidstudio 
 } from 'react-icons/si';
@@ -41,7 +41,7 @@ function App() {
 
   const techStack = [
     { name: 'HTML5', icon: SiHtml5, color: 'text-orange-400', bg: 'bg-orange-500/10 border-orange-500/20' },
-    { name: 'CSS3', icon: SiCss3, color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20' },
+    { name: 'CSS3', icon: SiCss, color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20' },
     { name: 'JavaScript', icon: SiJavascript, color: 'text-yellow-400', bg: 'bg-yellow-500/10 border-yellow-500/20' },
     { name: 'PHP', icon: SiPhp, color: 'text-indigo-400', bg: 'bg-indigo-500/10 border-indigo-500/20' },
     { name: 'React', icon: SiReact, color: 'text-cyan-400', bg: 'bg-cyan-500/10 border-cyan-500/20' },
