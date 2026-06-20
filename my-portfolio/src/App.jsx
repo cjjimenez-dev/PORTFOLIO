@@ -1,24 +1,77 @@
-import { useEffect, useState } from 'react';
-import { motion } from 'motion/react';
+import { useEffect, useState, useRef } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { 
   Menu, X, Github, Linkedin, Mail, Code2, Brain, 
   Medal, Gamepad2, Bike, Truck, Building2, Briefcase, 
   IdCard, Award, Phone, MapPin, Heart, Layers, Smartphone,
-  GitBranch, Database, TestTube, FileCode
+  GitBranch, Database, TestTube, FileCode, FolderGit2, ExternalLink,
+  ChevronLeft, ChevronRight
 } from 'lucide-react';
 import { 
-  SiHtml5, SiCss3, SiJavascript, SiPhp, SiReact, 
+  SiHtml5, SiCss, SiJavascript, SiPhp, SiReact, 
   SiLaravel, SiFlutter, SiDart, SiGit, SiGithub, 
-  SiAndroidstudio 
+  SiAndroidstudio, SiTailwindcss, SiNodedotjs, SiFirebase, 
+  SiFastapi, SiTypescript, SiVercel, SiPwa
 } from 'react-icons/si';
 import { FaJava } from 'react-icons/fa';
 import Aurora from './Aurora';
 import BlurText from './BlurText';
 
+const getTagIcon = (tag) => {
+  const t = tag.toLowerCase();
+  if (t.includes('react')) return SiReact;
+  if (t.includes('tailwind')) return SiTailwindcss;
+  if (t.includes('node.js')) return SiNodedotjs;
+  if (t.includes('laravel')) return SiLaravel;
+  if (t.includes('pwa')) return SiPwa;
+  if (t.includes('flutter')) return SiFlutter;
+  if (t.includes('firebase')) return SiFirebase;
+  if (t.includes('dart')) return SiDart;
+  if (t.includes('fastapi')) return SiFastapi;
+  if (t.includes('typescript')) return SiTypescript;
+  if (t.includes('serverless')) return SiVercel;
+  if (t.includes('php')) return SiPhp;
+  return null;
+};
+
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const carouselRef = useRef(null);
+  
+  // Drag-to-scroll state
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const [dragged, setDragged] = useState(false);
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setDragged(false);
+    setStartX(e.pageX - carouselRef.current.offsetLeft);
+    setScrollLeft(carouselRef.current.scrollLeft);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - carouselRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // scroll speed multiplier
+    if (Math.abs(walk) > 10) {
+      setDragged(true); // Prevent click if dragged significantly
+    }
+    carouselRef.current.scrollLeft = scrollLeft - walk;
+  };
 
   useEffect(() => {
     AOS.init({
@@ -31,6 +84,7 @@ function App() {
   const navLinks = [
     { name: 'About', href: '#about' },
     { name: 'Skills', href: '#skills' },
+    { name: 'Projects', href: '#projects' },
     { name: 'Experience', href: '#experience' },
     { name: 'Education', href: '#education' },
   ];
@@ -41,7 +95,7 @@ function App() {
 
   const techStack = [
     { name: 'HTML5', icon: SiHtml5, color: 'text-orange-400', bg: 'bg-orange-500/10 border-orange-500/20' },
-    { name: 'CSS3', icon: SiCss3, color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20' },
+    { name: 'CSS3', icon: SiCss, color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20' },
     { name: 'JavaScript', icon: SiJavascript, color: 'text-yellow-400', bg: 'bg-yellow-500/10 border-yellow-500/20' },
     { name: 'PHP', icon: SiPhp, color: 'text-indigo-400', bg: 'bg-indigo-500/10 border-indigo-500/20' },
     { name: 'React', icon: SiReact, color: 'text-cyan-400', bg: 'bg-cyan-500/10 border-cyan-500/20' },
@@ -52,6 +106,153 @@ function App() {
     { name: 'Git', icon: SiGit, color: 'text-rose-400', bg: 'bg-rose-500/10 border-rose-500/20' },
     { name: 'GitHub', icon: SiGithub, color: 'text-slate-300', bg: 'bg-slate-500/10 border-slate-500/20' },
     { name: 'Android Studio', icon: SiAndroidstudio, color: 'text-green-400', bg: 'bg-green-500/10 border-green-500/20' },
+  ];
+
+  const featuredProjects = [
+    {
+      title: 'VidereVision',
+      subHeader: 'Advanced Vision & Analytics Platform',
+      role: 'Full-Stack Developer',
+      description: 'A comprehensive vision and analytics platform built with modern technologies.',
+      details: 'VidereVision is a scalable web platform designed to provide cutting-edge analytics and computer vision capabilities for businesses. The project involved creating real-time dashboards, processing high-volume visual data, and ensuring a seamless user experience across all devices.',
+      tags: ['React', 'Tailwind CSS', 'Node.js'],
+      techStacks: 'React.js, Node.js, Express, Tailwind CSS, PostgreSQL',
+      color: 'from-blue-500/20 to-purple-500/20',
+      border: 'border-blue-500/30',
+      image: '/images/viderevision.png',
+      liveUrl: 'https://viderevision.vercel.app'
+    },
+    {
+      title: 'Lucky Boba POS',
+      subHeader: 'Full-Stack Point of Sale & PWA',
+      role: 'Full-Stack Web Developer',
+      description: 'A comprehensive Point of Sale system specifically designed for bubble tea shops, featuring offline capabilities.',
+      details: 'Lucky Boba POS is a full-stack Point of Sale system specifically designed for bubble tea shops. Its primary use is to handle store operations seamlessly, including real-time sales processing, inventory management across multiple locations, and role-based access control for different staff levels. Notably, it is built as a Progressive Web App (PWA), giving it offline capabilities to ensure uninterrupted service even without an active internet connection.',
+      features: `• Multi-Role System: 8 distinct user roles (Super Admin, System Admin, Area Manager, Branch Manager, Supervisor, Team Leader, IT Admin, Cashier) with tailored interfaces.
+• Real-time POS: Fast sales processing equipped with an offline queue.
+• Inventory Management: Comprehensive stock tracking, branch transfers, raw materials, and recipes.
+• Loyalty Program: Card-based customer rewards system.
+• Analytics Dashboard: Detailed reports for sales, inventory, and operations.
+• Audit Logging: Complete activity tracking across the system.
+• Multi-Branch Support: Centralized management for multiple store locations.
+• Device Management: POS device registration and authorization.
+• Bundle & Discount System: Flexible pricing rules and combinations.
+• Online Orders: Integration capabilities with online ordering.
+• PWA Support: Installable application that works offline and syncs automatically when the connection is restored.
+• Excel Export: Report export functionality.`,
+      tags: ['React 19', 'Laravel 12', 'PWA'],
+      techStacks: `Frontend Architecture:
+• Framework: React 19 + TypeScript
+• Build Tool: Vite 7
+• Routing: React Router DOM 7
+• Styling: TailwindCSS 4
+• State Management: Zustand
+• Icons: Lucide React
+• Charts: Recharts
+• Virtual Keyboard: React Simple Keyboard
+• Excel Operations: XLSX library
+• HTTP Client: Axios
+• PWA: Vite Plugin PWA with Workbox
+
+Backend Architecture:
+• Framework: Laravel 12 (PHP 8.3+)
+• API Authentication: Laravel Sanctum
+• Database: SQLite (default) / MySQL compatible
+• Caching: Redis (via Predis)
+• Excel Export: Maatwebsite Excel
+• Performance: Laravel Octane for high-performance serving
+• Queue Processing: Laravel Queue with concurrent workers`,
+      color: 'from-orange-500/20 to-red-500/20',
+      border: 'border-orange-500/30',
+      image: '/images/luckyboba-adminpanel.png'
+    },
+    {
+      title: 'Lucky Boba APP',
+      subHeader: 'Customer Mobile Application',
+      role: 'Mobile Developer',
+      description: 'A dedicated mobile application for customers to place orders, track loyalty points, and engage with the brand.',
+      details: 'The Lucky Boba APP is the customer-facing mobile interface for the bubble tea franchise. It empowers users to seamlessly browse the menu, customize their boba orders, and participate in the integrated digital loyalty program. Orders placed through the app are directly synced with the Lucky Boba POS for real-time processing by the store staff.',
+      features: `• Mobile Ordering: Intuitive interface for browsing menus, customizing drinks, and placing pickup/delivery orders.
+• Digital Loyalty Card: Integrated reward system replacing physical stamp cards.
+• Real-Time Order Tracking: Customers receive live updates on their order status from the POS.
+• User Authentication: Secure login via Firebase Authentication.
+• Push Notifications: Alerts for order updates and promotional offers.`,
+      tags: ['Flutter', 'Firebase', 'Dart'],
+      techStacks: `Frontend & Mobile:
+• Framework: Flutter
+• Language: Dart
+• State Management: Provider / Riverpod
+
+Backend & Services:
+• Authentication: Firebase Auth
+• Database: MySQL (synced via PHP APIs from POS)
+• Backend Language: PHP`,
+      color: 'from-red-500/20 to-orange-500/20',
+      border: 'border-red-500/30',
+      image: '/images/luckyboba-app.jpg'
+    },
+    {
+      title: 'ResumeForge',
+      subHeader: 'AI-Powered Resume Builder',
+      role: 'Full-Stack Web Developer',
+      description: 'A modern, AI-powered resume builder designed to create professional, ATS-friendly resumes.',
+      details: 'ResumeForge is a modern, AI-powered resume builder designed to help users quickly and easily create professional, ATS-friendly (Applicant Tracking System) resumes. It allows users to either build a resume from scratch or import their existing resumes to format them using live-preview templates.',
+      features: `• Resume Import: Ability to drag and drop existing resumes in PDF or DOCX format.
+• Resume Creation: Option to build a new resume entirely from scratch.
+• Authentication: Users can either create a dedicated account or continue using the app as a guest.
+• Dynamic Live-Preview Templates: Includes different stylistic options to choose from (Classic, Modern, Creative).
+• Exporting: Users can export their polished resumes/portfolios directly to Microsoft Word (DOCX) or PDF formats.`,
+      tags: ['React 18', 'Tailwind', 'FastAPI'],
+      techStacks: `Frontend:
+• Framework: React 18 paired with Vite for fast build times
+• Styling: Tailwind CSS v3 for utility-first styling
+• Animations: Framer Motion for smooth UI transitions
+• Icons: Lucide React
+• State Management & Routing: React Hooks
+
+Backend:
+• Framework: FastAPI (Python) for building high-performance APIs
+• Authentication: JSON Web Tokens (JWT)
+• File Parsing: PyPDF2 for parsing PDF files, python-docx for parsing Word documents
+• Database: SQLite (managed via SQLAlchemy ORM)
+• Server: Uvicorn as the ASGI web server implementation`,
+      color: 'from-teal-500/20 to-emerald-500/20',
+      border: 'border-teal-500/30',
+      image: '/images/resumeforge.png',
+      liveUrl: 'https://resumeforge-builder.vercel.app'
+    },
+    {
+      title: 'ShiftDox',
+      subHeader: 'Serverless Document Conversion App',
+      role: 'Full-Stack Developer',
+      description: 'A fast, highly secure, and beautifully designed serverless document conversion application.',
+      details: 'ShiftDox is a fast, highly secure, and beautifully designed serverless document conversion application. Its primary use is to allow users to securely upload and convert documents between various formats (such as PDF, Word, Excel, PowerPoint, and JPG) using an intuitive drag-and-drop interface and dedicated conversion tools.',
+      features: `• Premium Dark UI: A stunning glassmorphism design featuring fluid micro-animations powered by Framer Motion.
+• Serverless Architecture: It requires no traditional backend; all API routes run natively on Vercel Serverless Functions.
+• Google Authentication: Secure, one-click login and registration using @react-oauth/google.
+• Drag & Drop Conversions: Seamless file uploading tailored to specific conversion tasks.
+• 8 Dedicated Conversion Tools: PDF to Word, Word to PDF, PDF to Excel, Excel to PDF, PDF to PPT, PPT to PDF, PDF to JPG, JPG to PDF.
+• CloudConvert Engine: All files are securely processed in a sandboxed environment utilizing the CloudConvert API.`,
+      tags: ['React 19', 'TypeScript', 'Serverless'],
+      techStacks: `Frontend:
+• Framework: React 19 (via Vite)
+• Language: TypeScript
+• Styling: Tailwind CSS v4, Vanilla CSS
+• Animations: Framer Motion
+• Icons: Lucide React
+• Routing: React Router DOM v7
+• Authentication: Google OAuth 2.0 (@react-oauth/google)
+
+Backend & Infrastructure:
+• Hosting / Platform: Vercel
+• API Runtime: Vercel Serverless Functions (Node.js)
+• Form Parsing: Formidable
+• Conversion API: CloudConvert Node.js SDK`,
+      color: 'from-indigo-500/20 to-blue-500/20',
+      border: 'border-indigo-500/30',
+      image: '/images/shiftdox.png',
+      liveUrl: 'https://shift-dox.vercel.app/#'
+    }
   ];
 
   return (
@@ -339,6 +540,69 @@ function App() {
           </div>
         </section>
 
+        {/* ── PROJECTS SECTION ── */}
+        <section id="projects" className="py-24 relative">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-16" data-aos="fade-up">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-2">Featured Projects</h2>
+              <div className="h-1 w-20 bg-purple-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div className="relative group/carousel">
+              {/* Scroll Container */}
+              <div 
+                ref={carouselRef}
+                onMouseDown={handleMouseDown}
+                onMouseLeave={handleMouseLeave}
+                onMouseUp={handleMouseUp}
+                onMouseMove={handleMouseMove}
+                className={`flex overflow-x-auto gap-6 pb-8 custom-scrollbar pt-4 px-4 -mx-4 select-none cursor-grab active:cursor-grabbing ${!isDragging ? 'snap-x snap-mandatory' : ''}`}
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
+                {/* Hide default scrollbar for webkit */}
+                <style dangerouslySetInnerHTML={{__html: `
+                  .custom-scrollbar::-webkit-scrollbar { display: none; }
+                `}} />
+
+                {featuredProjects.map((project, i) => (
+                  <div 
+                    key={i} 
+                    className={`glass-card rounded-2xl border ${project.border} relative overflow-hidden group flex flex-col cursor-pointer flex-shrink-0 w-[85vw] md:w-[600px] hover:-translate-y-2 transition-transform duration-300 snap-center`} 
+                    data-aos="fade-up" 
+                    data-aos-delay={i * 100}
+                    onClick={() => {
+                      if (!dragged) setSelectedProject(project);
+                    }}
+                  >
+                    <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-20`}></div>
+                    
+                    {/* Image Container with Overlay Title */}
+                    <div className="h-72 md:h-80 w-full overflow-hidden relative bg-slate-900 flex-shrink-0 flex items-center justify-center p-6">
+                      <img 
+                        src={project.image} 
+                        alt={project.title} 
+                        draggable="false"
+                        className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105 relative z-0"
+                        onError={(e) => {
+                          e.target.src = 'https://placehold.co/600x400/1e293b/334155?text=' + project.title.replace(/ /g, '+');
+                        }}
+                      />
+                      
+                      {/* Gradient Overlay for Text Readability */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent z-10 pointer-events-none"></div>
+                      
+                      {/* Project Title overlaying the image */}
+                      <div className="absolute bottom-6 left-6 z-20 pr-6">
+                        <h3 className="text-2xl md:text-3xl font-bold text-white drop-shadow-lg">{project.title}</h3>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* ── EXPERIENCE SECTION ── */}
         <section id="experience" className="py-24 bg-slate-900/30 backdrop-blur-sm">
           <div className="container mx-auto px-6">
@@ -512,6 +776,111 @@ function App() {
           </div>
         </footer>
       </main>
+      {/* ── PROJECT MODAL ── */}
+      <AnimatePresence>
+        {selectedProject && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              onClick={() => setSelectedProject(null)}
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-2xl bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+            >
+              {/* Close Button */}
+              <button 
+                onClick={(e) => { e.stopPropagation(); setSelectedProject(null); }}
+                className="absolute top-4 right-4 z-10 p-2 bg-black/50 hover:bg-black/80 rounded-full text-white transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Modal Image Header */}
+              <div className="h-48 sm:h-72 w-full relative bg-slate-900 flex-shrink-0 flex items-center justify-center p-6 border-b border-white/5">
+                <img 
+                  src={selectedProject.image} 
+                  alt={selectedProject.title} 
+                  className="w-full h-full object-contain"
+                  onError={(e) => {
+                    e.target.src = 'https://placehold.co/800x400/1e293b/334155?text=' + selectedProject.title.replace(/ /g, '+');
+                  }}
+                />
+              </div>
+
+              {/* Modal Content */}
+              <div className="p-6 sm:p-8 overflow-y-auto custom-scrollbar">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
+                  <div>
+                    <h2 className="text-3xl font-bold text-white mb-1">{selectedProject.title}</h2>
+                    <p className="text-blue-400 font-semibold uppercase tracking-wider text-sm">{selectedProject.subHeader}</p>
+                  </div>
+                  {selectedProject.liveUrl && (
+                    <a 
+                      href={selectedProject.liveUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)]"
+                    >
+                      <ExternalLink className="w-4 h-4" /> Live Project
+                    </a>
+                  )}
+                </div>
+                
+                <div className="space-y-6">
+                  <div>
+                    <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-2">
+                      <Briefcase className="w-4 h-4" /> Role
+                    </h4>
+                    <p className="text-slate-300">{selectedProject.role}</p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-2">
+                      <FolderGit2 className="w-4 h-4" /> Details & Infos
+                    </h4>
+                    <p className="text-slate-300 leading-relaxed whitespace-pre-line">{selectedProject.details}</p>
+                  </div>
+
+                  {selectedProject.features && (
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <Award className="w-4 h-4" /> Features
+                      </h4>
+                      <p className="text-slate-300 leading-relaxed whitespace-pre-line">{selectedProject.features}</p>
+                    </div>
+                  )}
+
+                  <div>
+                    <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-2">
+                      <Layers className="w-4 h-4" /> Tech Stacks
+                    </h4>
+                    {selectedProject.tags && selectedProject.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {selectedProject.tags.map((tag, j) => {
+                          const Icon = getTagIcon(tag);
+                          return (
+                            <span key={j} className="flex items-center gap-1.5 px-3 py-1 bg-white/5 border border-white/10 rounded-full text-sm font-medium text-slate-300">
+                              {Icon && <Icon className="w-4 h-4" />}
+                              {tag}
+                            </span>
+                          );
+                        })}
+                      </div>
+                    )}
+                    <p className="text-slate-300 leading-relaxed whitespace-pre-line">{selectedProject.techStacks}</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
