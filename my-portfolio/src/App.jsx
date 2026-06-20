@@ -16,7 +16,6 @@ import {
   SiFastapi, SiTypescript, SiVercel, SiPwa
 } from 'react-icons/si';
 import { FaJava } from 'react-icons/fa';
-import Aurora from './Aurora';
 import BlurText from './BlurText';
 
 const getTagIcon = (tag) => {
@@ -106,6 +105,8 @@ function App() {
     { name: 'Git', icon: SiGit, color: 'text-rose-400', bg: 'bg-rose-500/10 border-rose-500/20' },
     { name: 'GitHub', icon: SiGithub, color: 'text-slate-300', bg: 'bg-slate-500/10 border-slate-500/20' },
     { name: 'Android Studio', icon: SiAndroidstudio, color: 'text-green-400', bg: 'bg-green-500/10 border-green-500/20' },
+    { name: 'Netbeans', icon: Layers, color: 'text-blue-300', bg: 'bg-blue-500/10 border-blue-500/20' },
+    { name: 'Antigravity', icon: Code2, color: 'text-purple-400', bg: 'bg-purple-500/10 border-purple-500/20' },
   ];
 
   const featuredProjects = [
@@ -258,14 +259,8 @@ Backend & Infrastructure:
   return (
     <div className="antialiased min-h-screen text-slate-200 bg-[#020617] relative">
 
-      {/* FULL PAGE AURORA BACKGROUND */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-50">
-        <Aurora
-          colorStops={["#7cff67","#B19EEF","#5227FF"]}
-          blend={0.5}
-          amplitude={1.0}
-          speed={0.5}
-        />
+      {/* MINIMALIST BACKGROUND */}
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-20 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-800 via-slate-950 to-slate-950">
       </div>
 
       {/* NAVIGATION */}
@@ -479,13 +474,13 @@ Backend & Infrastructure:
                 </div>
               </div>
 
-              {/* Soft Skills */}
+              {/* Soft Skills & Languages */}
               <div className="glass-card p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="100">
                 <h3 className="text-xl font-bold text-teal-400 mb-6 flex items-center gap-3">
                   <div className="bg-teal-500/10 p-2 rounded-lg"><Brain className="w-6 h-6" /></div>
-                  Soft Skills
+                  Soft Skills & Languages
                 </h3>
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3 mb-6">
                   {[
                     'Active Listening', 'Critical Thinking', 'Leadership', 
                     'Task Delegation', 'Teamwork', 'Time Management',
@@ -497,16 +492,35 @@ Backend & Infrastructure:
                   ))}
                 </div>
 
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span className="font-medium text-white text-sm">Filipino</span>
+                    <span className="text-xs text-teal-300">Native</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium text-white text-sm">English</span>
+                    <span className="text-xs text-teal-300">Intermediate</span>
+                  </div>
+                </div>
+
                 <div className="mt-8 pt-6 border-t border-slate-700">
-                  <h4 className="text-xs font-bold text-slate-400 mb-4 uppercase tracking-widest">Affiliations</h4>
+                  <h4 className="text-xs font-bold text-slate-400 mb-4 uppercase tracking-widest">Affiliations & Awards</h4>
                   <div className="space-y-3">
                     <div className="flex items-center gap-3 text-sm text-slate-300">
                       <Medal className="w-5 h-5 text-yellow-500 flex-shrink-0" />
                       <span>PH Army Reserve (RESCOM) — 1302nd Btn</span>
                     </div>
                     <div className="flex items-center gap-3 text-sm text-slate-300">
-                      <Gamepad2 className="w-5 h-5 text-purple-500 flex-shrink-0" />
-                      <span>QCU Kyusi Esports Player (2023)</span>
+                      <Award className="w-5 h-5 text-green-500 flex-shrink-0" />
+                      <span>Cert. of Appreciation - Clean Up Drive</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm text-slate-300">
+                      <Award className="w-5 h-5 text-green-500 flex-shrink-0" />
+                      <span>Cert. of Attendance - GAD Seminar</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm text-slate-300">
+                      <Award className="w-5 h-5 text-green-500 flex-shrink-0" />
+                      <span>Cert. of Appreciation - Holy Trinity Procession</span>
                     </div>
                   </div>
                 </div>
@@ -523,7 +537,7 @@ Backend & Infrastructure:
                     { label: 'Frontend', items: 'React, HTML5, CSS3, JavaScript', Icon: FileCode, color: 'text-blue-400' },
                     { label: 'Backend', items: 'PHP, Laravel, Java', Icon: Database, color: 'text-green-400' },
                     { label: 'Mobile', items: 'Flutter, Dart, Android Studio', Icon: Smartphone, color: 'text-cyan-400' },
-                    { label: 'DevOps', items: 'Git, GitHub, VS Code', Icon: GitBranch, color: 'text-orange-400' },
+                    { label: 'DevOps', items: 'Git, GitHub, VS Code, Netbeans, Antigravity', Icon: GitBranch, color: 'text-orange-400' },
                     { label: 'QA', items: 'Manual Testing, Alpha & Beta Testing', Icon: TestTube, color: 'text-pink-400' },
                   ].map((group) => (
                     <div key={group.label} className="flex gap-3 items-start">
@@ -614,7 +628,7 @@ Backend & Infrastructure:
               {[
                 { 
                   role: 'IT Programmer', 
-                  date: 'Feb 9 – Apr 10, 2025', 
+                  date: 'February – June 2026', 
                   company: 'Lucky Boba Food and Beverage Trading Corp', 
                   Icon: Code2,
                   color: 'text-blue-400',
@@ -626,7 +640,7 @@ Backend & Infrastructure:
                 },
                 { 
                   role: 'OJT Intern — Curriculum & Learning Management Division', 
-                  date: 'Sep 9 – Nov 13, 2025', 
+                  date: 'September – December 2025', 
                   company: 'Department of Education NCR', 
                   Icon: Building2,
                   color: 'text-teal-400',
@@ -657,7 +671,7 @@ Backend & Infrastructure:
                 },
                 { 
                   role: 'Motorcycle Rider Partner', 
-                  date: 'July 2025 – Present', 
+                  date: 'July 2025 – January 2026', 
                   company: 'ANGKAS Philippines', 
                   Icon: Bike,
                   color: 'text-orange-400',
@@ -727,9 +741,12 @@ Backend & Infrastructure:
               <h3 className="text-2xl font-display font-bold mb-8 text-white border-l-4 border-teal-500 pl-4">Licenses & Certifications</h3>
               <div className="grid gap-4">
                 {[
-                  { title: "Professional Driver's License", org: "Land Transportation Office (LTO) Philippines", Icon: IdCard, color: 'text-blue-400 bg-blue-500/10' },
+                  { title: "Professional Driver's License", org: "October 7, 2024", Icon: IdCard, color: 'text-blue-400 bg-blue-500/10' },
+                  { title: "AI for Business Professionals", org: "HP LIFE | HP Foundation — April 24, 2026", Icon: Brain, color: 'text-purple-400 bg-purple-500/10' },
+                  { title: "Business Email", org: "HP LIFE | HP Foundation — April 24, 2026", Icon: Mail, color: 'text-teal-400 bg-teal-500/10' },
+                  { title: "Resume Writing and Job Interviewing", org: "HP LIFE | HP Foundation — April 25, 2026", Icon: Briefcase, color: 'text-indigo-400 bg-indigo-500/10' },
+                  { title: "AI in Education Webinar", org: "NCBA Fairview — Certificate of Participation, Feb 5, 2026", Icon: Brain, color: 'text-rose-400 bg-rose-500/10' },
                   { title: "Basic ROTC Completer", org: "Quezon City University — A.Y. 2022–2023", Icon: Award, color: 'text-yellow-400 bg-yellow-500/10' },
-                  { title: "AI in Education Webinar", org: "NCBA Fairview — Certificate of Participation, Feb 5, 2026", Icon: Brain, color: 'text-purple-400 bg-purple-500/10' },
                 ].map((cert, i) => (
                   <div key={i} className="glass-card p-4 rounded-lg flex items-center gap-4">
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${cert.color}`}>
@@ -746,13 +763,48 @@ Backend & Infrastructure:
           </div>
         </section>
 
+        {/* ── CHARACTER REFERENCES ── */}
+        <section className="py-24 bg-slate-900/30 backdrop-blur-sm border-t border-white/5">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-16" data-aos="fade-up">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-2">Character References</h2>
+              <div className="h-1 w-20 bg-blue-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                { name: 'Ara Niña D. Legaspi', role: 'Marketing & Client Relations Specialist', company: 'FDM Training Center', contact: '0939-507-9634', email: 'araninalegaspi@gmail.com' },
+                { name: 'Marlon Palces', role: 'IT Manager', company: 'IHG Hotels & Resorts', contact: '0906-522-0066', email: 'palcesm@gmail.com' },
+                { name: 'Mary Margiery Capistrano', role: 'Restaurant supervisor', company: 'Cf Sharp Crew Management INC', contact: '0928-311-0222', email: 'Mhiebhie24@yahoo.com' },
+              ].map((ref, i) => (
+                <div key={i} className="glass-card p-6 rounded-2xl text-center" data-aos="fade-up" data-aos-delay={i * 100}>
+                  <div className="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-blue-500/20">
+                    <span className="text-xl font-bold text-blue-400">{ref.name.charAt(0)}</span>
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-1">{ref.name}</h3>
+                  <p className="text-sm text-blue-400 mb-1">{ref.role}</p>
+                  <p className="text-xs text-slate-400 mb-4">{ref.company}</p>
+                  <div className="space-y-2 text-sm text-slate-300">
+                    <a href={`tel:${ref.contact}`} className="flex items-center justify-center gap-2 hover:text-white transition">
+                      <Phone className="w-4 h-4" /> {ref.contact}
+                    </a>
+                    <a href={`mailto:${ref.email}`} className="flex items-center justify-center gap-2 hover:text-white transition">
+                      <Mail className="w-4 h-4" /> <span className="truncate max-w-[200px]">{ref.email}</span>
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── FOOTER / CONTACT ── */}
         <footer id="contact" className="bg-black/80 py-12 border-t border-slate-800 backdrop-blur-md">
           <div className="container mx-auto px-6 text-center">
             <h2 className="text-2xl font-bold text-white mb-2">Let's Work Together</h2>
             <p className="text-slate-500 text-sm mb-8">Open to freelance, remote, and full-time opportunities.</p>
             <div className="flex flex-col md:flex-row justify-center gap-6 mb-10 text-slate-400">
-              <a href="tel:09476157499" className="flex items-center justify-center gap-2 hover:text-white transition">
+              <a href="tel:09944966180" className="flex items-center justify-center gap-2 hover:text-white transition">
                 <Phone className="w-5 h-5" /> 09944966180
               </a>
               <a href="mailto:jimenezchristianjohngran07@gmail.com" className="flex items-center justify-center gap-2 hover:text-blue-400 transition">
