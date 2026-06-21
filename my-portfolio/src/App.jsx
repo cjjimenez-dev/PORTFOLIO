@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'motion/react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
