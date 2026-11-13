@@ -190,16 +190,28 @@ function ProjectEditor({ projects, category, onChange }) {
               />
             </div>
             <div>
-              <label className={labelClass}>Thumbnail Image Path / URL</label>
-              <div className="flex gap-1.5">
+              <label className={labelClass}>Thumbnail Image</label>
+              <div className="flex items-center gap-2">
+                {project.image && (
+                  <img
+                    src={project.image}
+                    alt="Thumbnail preview"
+                    className="w-9 h-9 rounded-lg object-cover bg-slate-950 border border-white/10 flex-shrink-0"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                )}
                 <input
                   type="text"
                   className={inputClass}
-                  value={project.image || ''}
+                  placeholder="/images/... or upload from folder"
+                  value={project.image?.startsWith('data:') ? 'Uploaded image (stored in browser)' : project.image || ''}
+                  readOnly={project.image?.startsWith('data:')}
                   onChange={(e) => handleUpdate(idx, 'image', e.target.value)}
                 />
-                <label className="inline-flex items-center px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 text-xs font-medium cursor-pointer flex-shrink-0">
-                  Upload
+                <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold cursor-pointer flex-shrink-0 transition">
+                  <Upload className="w-3.5 h-3.5" /> Choose File
                   <input
                     type="file"
                     accept="image/*"
@@ -311,12 +323,23 @@ function ProjectEditor({ projects, category, onChange }) {
                     handleUpdate(idx, 'gallery', nextGallery);
                   }}
                 />
-                <div className="flex gap-1.5">
+                <div className="flex items-center gap-2">
+                  {slide.src && (
+                    <img
+                      src={slide.src}
+                      alt={slide.label || 'Screen preview'}
+                      className="w-9 h-9 rounded-lg object-cover bg-slate-950 border border-white/10 flex-shrink-0"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                  )}
                   <input
                     type="text"
                     className={inputClass}
-                    placeholder="/images/screenshot.png or https://..."
-                    value={slide.src || ''}
+                    placeholder="/images/... or choose file"
+                    value={slide.src?.startsWith('data:') ? 'Uploaded image (stored in browser)' : slide.src || ''}
+                    readOnly={slide.src?.startsWith('data:')}
                     onChange={(e) => {
                       const nextGallery = (project.gallery || []).map((item, i) =>
                         i === sIdx ? { ...item, src: e.target.value } : item
@@ -324,8 +347,8 @@ function ProjectEditor({ projects, category, onChange }) {
                       handleUpdate(idx, 'gallery', nextGallery);
                     }}
                   />
-                  <label className="inline-flex items-center px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 text-xs font-medium cursor-pointer flex-shrink-0">
-                    Upload
+                  <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold cursor-pointer flex-shrink-0 transition">
+                    <Upload className="w-3.5 h-3.5" /> Choose File
                     <input
                       type="file"
                       accept="image/*"
