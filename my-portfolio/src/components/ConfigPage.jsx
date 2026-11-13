@@ -532,7 +532,6 @@ export default function ConfigPage({ onBack }) {
                     ['name', 'Full Name'],
                     ['role', 'Headline Role'],
                     ['educationBadge', 'Education Subtitle'],
-                    ['badge', 'Availability Badge'],
                     ['email', 'Email Address'],
                     ['phone', 'Phone Number'],
                     ['location', 'Location'],

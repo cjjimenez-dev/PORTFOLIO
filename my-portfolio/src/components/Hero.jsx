@@ -40,16 +40,6 @@ export default function Hero() {
         />
 
         <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 text-center relative z-10 my-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 12, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.45 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 mb-5 text-[11px] font-semibold tracking-wider text-blue-300 uppercase bg-blue-500/10 rounded-full border border-blue-500/20 backdrop-blur-sm"
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            {profile.badge}
-          </motion.div>
-
           <div className="flex justify-center">
             <BlurText
               text={profile.name}
