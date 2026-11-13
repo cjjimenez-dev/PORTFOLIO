@@ -232,6 +232,75 @@ function ProjectEditor({ projects, category, onChange }) {
               }
             />
           </div>
+
+          {/* Multi-Image Gallery Editor */}
+          <div className="pt-3 border-t border-white/10 space-y-3">
+            <div className="flex items-center justify-between gap-2">
+              <div>
+                <label className={`${labelClass} mb-0`}>Gallery Screens (Multiple Modal Images)</label>
+                <p className="text-[11px] text-slate-500">
+                  Add multiple screenshots with labels to show a carousel inside the project modal.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() =>
+                  handleUpdate(idx, 'gallery', [
+                    ...(project.gallery || []),
+                    { src: project.image || '/images/', label: `Screen ${(project.gallery || []).length + 1}` },
+                  ])
+                }
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 text-xs font-semibold transition flex-shrink-0"
+              >
+                <Plus className="w-3.5 h-3.5" /> Add Screen
+              </button>
+            </div>
+
+            {(project.gallery || []).map((slide, sIdx) => (
+              <div
+                key={sIdx}
+                className="grid sm:grid-cols-[1fr_1.4fr_auto] gap-2.5 items-center bg-slate-950/60 border border-white/5 rounded-xl p-3"
+              >
+                <input
+                  type="text"
+                  className={inputClass}
+                  placeholder="Screen label (e.g. Dashboard)"
+                  value={slide.label || ''}
+                  onChange={(e) => {
+                    const nextGallery = (project.gallery || []).map((item, i) =>
+                      i === sIdx ? { ...item, label: e.target.value } : item
+                    );
+                    handleUpdate(idx, 'gallery', nextGallery);
+                  }}
+                />
+                <input
+                  type="text"
+                  className={inputClass}
+                  placeholder="/images/screenshot.png or https://..."
+                  value={slide.src || ''}
+                  onChange={(e) => {
+                    const nextGallery = (project.gallery || []).map((item, i) =>
+                      i === sIdx ? { ...item, src: e.target.value } : item
+                    );
+                    handleUpdate(idx, 'gallery', nextGallery);
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() =>
+                    handleUpdate(
+                      idx,
+                      'gallery',
+                      (project.gallery || []).filter((_, i) => i !== sIdx)
+                    )
+                  }
+                  className="text-red-400 hover:text-red-300 text-xs font-semibold px-2 py-1"
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       ))}
     </div>
