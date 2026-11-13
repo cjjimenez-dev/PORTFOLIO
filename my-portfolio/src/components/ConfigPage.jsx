@@ -31,6 +31,27 @@ const inputClass =
   'w-full bg-slate-950/80 border border-white/10 rounded-lg px-2.5 py-1.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition';
 const labelClass = 'block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1';
 
+const compressImageToDataUrl = (file, maxWidth = 1200, quality = 0.82) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = new Image();
+      img.onload = () => {
+        const scale = Math.min(1, maxWidth / img.width);
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL('image/webp', quality));
+      };
+      img.onerror = reject;
+      img.src = ev.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+
 function ProjectEditor({ projects, category, onChange }) {
   const isCompany = category === 'company';
 
@@ -170,12 +191,29 @@ function ProjectEditor({ projects, category, onChange }) {
             </div>
             <div>
               <label className={labelClass}>Thumbnail Image Path / URL</label>
-              <input
-                type="text"
-                className={inputClass}
-                value={project.image || ''}
-                onChange={(e) => handleUpdate(idx, 'image', e.target.value)}
-              />
+              <div className="flex gap-1.5">
+                <input
+                  type="text"
+                  className={inputClass}
+                  value={project.image || ''}
+                  onChange={(e) => handleUpdate(idx, 'image', e.target.value)}
+                />
+                <label className="inline-flex items-center px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 text-xs font-medium cursor-pointer flex-shrink-0">
+                  Upload
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      const dataUrl = await compressImageToDataUrl(file);
+                      handleUpdate(idx, 'image', dataUrl);
+                      e.target.value = '';
+                    }}
+                  />
+                </label>
+              </div>
             </div>
             <div>
               <label className={labelClass}>Tech Stack Tags (comma-separated)</label>
@@ -273,18 +311,38 @@ function ProjectEditor({ projects, category, onChange }) {
                     handleUpdate(idx, 'gallery', nextGallery);
                   }}
                 />
-                <input
-                  type="text"
-                  className={inputClass}
-                  placeholder="/images/screenshot.png or https://..."
-                  value={slide.src || ''}
-                  onChange={(e) => {
-                    const nextGallery = (project.gallery || []).map((item, i) =>
-                      i === sIdx ? { ...item, src: e.target.value } : item
-                    );
-                    handleUpdate(idx, 'gallery', nextGallery);
-                  }}
-                />
+                <div className="flex gap-1.5">
+                  <input
+                    type="text"
+                    className={inputClass}
+                    placeholder="/images/screenshot.png or https://..."
+                    value={slide.src || ''}
+                    onChange={(e) => {
+                      const nextGallery = (project.gallery || []).map((item, i) =>
+                        i === sIdx ? { ...item, src: e.target.value } : item
+                      );
+                      handleUpdate(idx, 'gallery', nextGallery);
+                    }}
+                  />
+                  <label className="inline-flex items-center px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 text-xs font-medium cursor-pointer flex-shrink-0">
+                    Upload
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        const dataUrl = await compressImageToDataUrl(file);
+                        const nextGallery = (project.gallery || []).map((item, i) =>
+                          i === sIdx ? { ...item, src: dataUrl } : item
+                        );
+                        handleUpdate(idx, 'gallery', nextGallery);
+                        e.target.value = '';
+                      }}
+                    />
+                  </label>
+                </div>
                 <button
                   type="button"
                   onClick={() =>

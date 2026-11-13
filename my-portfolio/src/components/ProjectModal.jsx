@@ -84,81 +84,82 @@ export default function ProjectModal({ project, onClose }) {
             initial={{ opacity: 0, scale: 0.96, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 16 }}
-            className="relative w-full max-w-3xl bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+            className="relative w-full max-w-3xl bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
           >
             {/* Close Button */}
             <button
               type="button"
               onClick={onClose}
               aria-label="Close project details"
-              className="absolute top-4 right-4 z-20 p-2 bg-black/60 hover:bg-black/90 rounded-full text-white transition-colors border border-white/10"
+              className="absolute top-3.5 right-3.5 z-30 p-2 bg-black/70 hover:bg-black/90 rounded-full text-white transition-colors border border-white/15"
             >
               <X className="w-5 h-5" />
             </button>
 
-            {/* Gallery Header */}
-            <div className="relative bg-slate-950 border-b border-white/10 flex-shrink-0">
-              <div className="h-56 sm:h-80 w-full flex items-center justify-center p-4 sm:p-6 relative">
-                {currentSlide && (
-                  <img
-                    src={currentSlide.src}
-                    alt={`${project.title} — ${currentSlide.label}`}
-                    className="w-full h-full object-contain rounded-lg"
-                    onError={(e) => {
-                      e.target.src =
-                        'https://placehold.co/800x400/1e293b/334155?text=' +
-                        project.title.replace(/ /g, '+');
-                    }}
-                  />
-                )}
+            <div className="overflow-y-auto custom-scrollbar flex-1">
+              {/* Gallery Header */}
+              <div className="relative bg-slate-950 border-b border-white/10">
+                <div className="h-44 sm:h-56 w-full flex items-center justify-center p-3 sm:p-4 relative">
+                  {currentSlide && (
+                    <img
+                      src={currentSlide.src}
+                      alt={`${project.title} — ${currentSlide.label}`}
+                      className="w-full h-full object-contain rounded-lg"
+                      onError={(e) => {
+                        e.target.src =
+                          'https://placehold.co/800x400/1e293b/334155?text=' +
+                          project.title.replace(/ /g, '+');
+                      }}
+                    />
+                  )}
 
+                  {gallery.length > 1 && (
+                    <>
+                      <button
+                        type="button"
+                        aria-label="Previous screenshot"
+                        onClick={() =>
+                          setActiveImageIndex((prev) => (prev - 1 + gallery.length) % gallery.length)
+                        }
+                        className="absolute left-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-slate-900/80 hover:bg-slate-800 text-white border border-white/10 transition"
+                      >
+                        <ChevronLeft className="w-4 h-4" />
+                      </button>
+                      <button
+                        type="button"
+                        aria-label="Next screenshot"
+                        onClick={() => setActiveImageIndex((prev) => (prev + 1) % gallery.length)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-slate-900/80 hover:bg-slate-800 text-white border border-white/10 transition"
+                      >
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </>
+                  )}
+                </div>
+
+                {/* Gallery Switcher Pills */}
                 {gallery.length > 1 && (
-                  <>
-                    <button
-                      type="button"
-                      aria-label="Previous screenshot"
-                      onClick={() =>
-                        setActiveImageIndex((prev) => (prev - 1 + gallery.length) % gallery.length)
-                      }
-                      className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-slate-900/80 hover:bg-slate-800 text-white border border-white/10 transition"
-                    >
-                      <ChevronLeft className="w-5 h-5" />
-                    </button>
-                    <button
-                      type="button"
-                      aria-label="Next screenshot"
-                      onClick={() => setActiveImageIndex((prev) => (prev + 1) % gallery.length)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-slate-900/80 hover:bg-slate-800 text-white border border-white/10 transition"
-                    >
-                      <ChevronRight className="w-5 h-5" />
-                    </button>
-                  </>
+                  <div className="flex flex-wrap justify-center gap-1.5 pb-2.5 px-4">
+                    {gallery.map((item, idx) => (
+                      <button
+                        key={item.src + idx}
+                        type="button"
+                        onClick={() => setActiveImageIndex(idx)}
+                        className={`px-2.5 py-1 rounded-full text-[11px] font-medium transition ${
+                          idx === activeImageIndex
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                        }`}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
                 )}
               </div>
 
-              {/* Gallery Switcher Pills */}
-              {gallery.length > 1 && (
-                <div className="flex flex-wrap justify-center gap-2 pb-3 px-4">
-                  {gallery.map((item, idx) => (
-                    <button
-                      key={item.src}
-                      type="button"
-                      onClick={() => setActiveImageIndex(idx)}
-                      className={`px-3 py-1 rounded-full text-xs font-medium transition ${
-                        idx === activeImageIndex
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-                      }`}
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Modal Content */}
-            <div className="p-6 sm:p-8 overflow-y-auto custom-scrollbar space-y-6">
+              {/* Modal Content */}
+              <div className="p-5 sm:p-6 space-y-5">
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                 <div>
                   <span className="inline-block text-xs font-semibold uppercase tracking-wider text-blue-400 mb-1">
@@ -276,6 +277,7 @@ export default function ProjectModal({ project, onClose }) {
                     ))}
                   </div>
                 )}
+              </div>
               </div>
             </div>
           </motion.div>
