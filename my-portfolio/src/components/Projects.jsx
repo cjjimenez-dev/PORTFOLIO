@@ -1,4 +1,6 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+// eslint-disable-next-line no-unused-vars
+import { AnimatePresence, motion } from 'motion/react';
 import {
   ArrowUpRight,
   Building2,
@@ -11,10 +13,16 @@ import {
 import { getTagIcon } from '../data/portfolioData';
 import { usePortfolio } from '../context/PortfolioContext';
 
-function ProjectCard({ project, onSelect, draggedRef }) {
+function ProjectCard({ project, index, onSelect, draggedRef }) {
   return (
-    <article
-      className={`glass-card rounded-2xl border ${project.border} relative overflow-hidden group flex flex-col cursor-pointer flex-shrink-0 w-[84vw] sm:w-[330px] md:w-[355px] snap-start hover:-translate-y-1 transition-all duration-300`}
+    <motion.article
+      initial={{ opacity: 0, y: 18, scale: 0.97 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.4, delay: Math.min(index * 0.08, 0.32), ease: 'easeOut' }}
+      whileHover={{ y: -6, transition: { duration: 0.22, ease: 'easeOut' } }}
+      whileTap={{ scale: 0.99 }}
+      className={`glass-card rounded-2xl border ${project.border} relative overflow-hidden group flex flex-col cursor-pointer flex-shrink-0 w-[84vw] sm:w-[330px] md:w-[355px] snap-start transition-shadow duration-300 hover:shadow-2xl hover:shadow-blue-500/10`}
       onClick={() => {
         if (!draggedRef.current) onSelect(project);
       }}
@@ -86,7 +94,8 @@ function ProjectCard({ project, onSelect, draggedRef }) {
         {/* Card Actions */}
         <div className="flex items-center justify-between pt-3 border-t border-white/10">
           <span className="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-white group-hover:text-blue-400 transition-colors">
-            View Case Study <ArrowUpRight className="w-3.5 h-3.5" />
+            View Case Study
+            <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </span>
 
           {project.liveUrl && (
@@ -102,7 +111,7 @@ function ProjectCard({ project, onSelect, draggedRef }) {
           )}
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 }
 
@@ -113,6 +122,29 @@ function ProjectCarousel({ title, subtitle, icon: HeaderIcon, iconStyle, project
   const startXRef = useRef(0);
   const scrollLeftRef = useRef(0);
   const [dragging, setDragging] = useState(false);
+  const [scrollState, setScrollState] = useState({ canPrev: false, canNext: true, progress: 0 });
+
+  const updateScrollState = () => {
+    const el = trackRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    if (maxScroll <= 2) {
+      setScrollState({ canPrev: false, canNext: false, progress: 100 });
+      return;
+    }
+    const progress = Math.min(100, Math.max(0, (el.scrollLeft / maxScroll) * 100));
+    setScrollState({
+      canPrev: el.scrollLeft > 4,
+      canNext: el.scrollLeft < maxScroll - 4,
+      progress,
+    });
+  };
+
+  useEffect(() => {
+    updateScrollState();
+    window.addEventListener('resize', updateScrollState);
+    return () => window.removeEventListener('resize', updateScrollState);
+  }, [projects.length]);
 
   const scrollByCard = (direction) => {
     const el = trackRef.current;
@@ -146,7 +178,13 @@ function ProjectCarousel({ title, subtitle, icon: HeaderIcon, iconStyle, project
   };
 
   return (
-    <div className="mb-12 last:mb-0">
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -12 }}
+      transition={{ duration: 0.3 }}
+      className="mb-12 last:mb-0"
+    >
       <div className="flex items-center justify-between gap-4 mb-5">
         <div className="flex items-center gap-3">
           <div className={`p-2 rounded-lg border ${iconStyle}`}>
@@ -160,28 +198,35 @@ function ProjectCarousel({ title, subtitle, icon: HeaderIcon, iconStyle, project
 
         {/* Carousel Arrow Controls */}
         <div className="flex items-center gap-2 flex-shrink-0">
-          <button
+          <motion.button
             type="button"
+            whileHover={scrollState.canPrev ? { scale: 1.1 } : undefined}
+            whileTap={scrollState.canPrev ? { scale: 0.92 } : undefined}
+            disabled={!scrollState.canPrev}
             onClick={() => scrollByCard(-1)}
             aria-label={`Scroll ${title} left`}
-            className="p-2 rounded-full bg-slate-900/80 hover:bg-slate-800 border border-white/10 text-slate-300 hover:text-white transition"
+            className="p-2 rounded-full bg-slate-900/80 hover:bg-slate-800 disabled:opacity-30 disabled:pointer-events-none border border-white/10 text-slate-300 hover:text-white transition"
           >
             <ChevronLeft className="w-4 h-4" />
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             type="button"
+            whileHover={scrollState.canNext ? { scale: 1.1 } : undefined}
+            whileTap={scrollState.canNext ? { scale: 0.92 } : undefined}
+            disabled={!scrollState.canNext}
             onClick={() => scrollByCard(1)}
             aria-label={`Scroll ${title} right`}
-            className="p-2 rounded-full bg-slate-900/80 hover:bg-slate-800 border border-white/10 text-slate-300 hover:text-white transition"
+            className="p-2 rounded-full bg-slate-900/80 hover:bg-slate-800 disabled:opacity-30 disabled:pointer-events-none border border-white/10 text-slate-300 hover:text-white transition"
           >
             <ChevronRight className="w-4 h-4" />
-          </button>
+          </motion.button>
         </div>
       </div>
 
       {/* Horizontal Carousel Track */}
       <div
         ref={trackRef}
+        onScroll={updateScrollState}
         onMouseDown={handleMouseDown}
         onMouseLeave={handleMouseUpOrLeave}
         onMouseUp={handleMouseUpOrLeave}
@@ -191,16 +236,28 @@ function ProjectCarousel({ title, subtitle, icon: HeaderIcon, iconStyle, project
         }`}
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {projects.map((project) => (
+        {projects.map((project, idx) => (
           <ProjectCard
             key={project.id || project.title}
             project={project}
+            index={idx}
             onSelect={onSelectProject}
             draggedRef={draggedRef}
           />
         ))}
       </div>
-    </div>
+
+      {/* Animated Scroll Progress Indicator */}
+      {(scrollState.canPrev || scrollState.canNext) && (
+        <div className="mt-2 h-0.5 w-full bg-slate-800/80 rounded-full overflow-hidden">
+          <motion.div
+            className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
+            animate={{ width: `${Math.max(18, scrollState.progress)}%` }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+          />
+        </div>
+      )}
+    </motion.div>
   );
 }
 
@@ -239,11 +296,12 @@ export default function Projects({ onSelectProject }) {
           {tabs.map((tab) => {
             const active = filter === tab.id;
             return (
-              <button
+              <motion.button
                 key={tab.id}
                 type="button"
                 role="tab"
                 aria-selected={active}
+                whileTap={{ scale: 0.96 }}
                 onClick={() => setFilter(tab.id)}
                 className={`px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium transition ${
                   active
@@ -252,32 +310,36 @@ export default function Projects({ onSelectProject }) {
                 }`}
               >
                 {tab.label}
-              </button>
+              </motion.button>
             );
           })}
         </div>
 
-        {showCompany && (
-          <ProjectCarousel
-            title="Company & Production Systems"
-            subtitle="Production software engineered for enterprise & commercial operations"
-            icon={Building2}
-            iconStyle="bg-orange-500/10 border-orange-500/20 text-orange-400"
-            projects={companyProjects}
-            onSelectProject={onSelectProject}
-          />
-        )}
+        <AnimatePresence mode="wait">
+          <motion.div key={filter} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            {showCompany && (
+              <ProjectCarousel
+                title="Company & Production Systems"
+                subtitle="Production software engineered for enterprise & commercial operations"
+                icon={Building2}
+                iconStyle="bg-orange-500/10 border-orange-500/20 text-orange-400"
+                projects={companyProjects}
+                onSelectProject={onSelectProject}
+              />
+            )}
 
-        {showSelf && (
-          <ProjectCarousel
-            title="Self & Independent Projects"
-            subtitle="Personal SaaS tools, serverless utilities, and full-stack web applications"
-            icon={Sparkles}
-            iconStyle="bg-blue-500/10 border-blue-500/20 text-blue-400"
-            projects={selfProjects}
-            onSelectProject={onSelectProject}
-          />
-        )}
+            {showSelf && (
+              <ProjectCarousel
+                title="Self & Independent Projects"
+                subtitle="Personal SaaS tools, serverless utilities, and full-stack web applications"
+                icon={Sparkles}
+                iconStyle="bg-blue-500/10 border-blue-500/20 text-blue-400"
+                projects={selfProjects}
+                onSelectProject={onSelectProject}
+              />
+            )}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );
