@@ -18,7 +18,7 @@ import {
 import { usePortfolio } from '../context/PortfolioContext';
 
 const TABS = [
-  { id: 'profile', label: 'Profile & Stats', icon: User },
+  { id: 'profile', label: 'Profile', icon: User },
   { id: 'company', label: 'Company Projects', icon: Building2 },
   { id: 'self', label: 'Self Projects', icon: Sparkles },
   { id: 'skills', label: 'Skills', icon: Wrench },
@@ -562,87 +562,6 @@ export default function ConfigPage({ onBack }) {
                       updateConfig('profile', { ...config.profile, summary: e.target.value })
                     }
                   />
-                </div>
-              </div>
-
-              <div className="glass-card p-6 rounded-2xl space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-bold text-white">Hero Stat Cards</h3>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      updateConfig('heroStats', [
-                        ...config.heroStats,
-                        { label: 'New Stat', value: '10+', sub: 'Subtitle' },
-                      ])
-                    }
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition"
-                  >
-                    <Plus className="w-3.5 h-3.5" /> Add Stat
-                  </button>
-                </div>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  {config.heroStats.map((stat, idx) => (
-                    <div key={idx} className="bg-slate-900/80 border border-white/10 rounded-xl p-4 space-y-2.5">
-                      <div className="flex justify-between items-center">
-                        <span className="text-xs font-bold text-slate-400">Stat #{idx + 1}</span>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            updateConfig(
-                              'heroStats',
-                              config.heroStats.filter((_, i) => i !== idx)
-                            )
-                          }
-                          className="text-red-400 hover:text-red-300 text-xs"
-                        >
-                          Remove
-                        </button>
-                      </div>
-                      <input
-                        type="text"
-                        className={inputClass}
-                        placeholder="Value (e.g. 4+)"
-                        value={stat.value}
-                        onChange={(e) =>
-                          updateConfig(
-                            'heroStats',
-                            config.heroStats.map((s, i) =>
-                              i === idx ? { ...s, value: e.target.value } : s
-                            )
-                          )
-                        }
-                      />
-                      <input
-                        type="text"
-                        className={inputClass}
-                        placeholder="Label"
-                        value={stat.label}
-                        onChange={(e) =>
-                          updateConfig(
-                            'heroStats',
-                            config.heroStats.map((s, i) =>
-                              i === idx ? { ...s, label: e.target.value } : s
-                            )
-                          )
-                        }
-                      />
-                      <input
-                        type="text"
-                        className={inputClass}
-                        placeholder="Subtitle"
-                        value={stat.sub}
-                        onChange={(e) =>
-                          updateConfig(
-                            'heroStats',
-                            config.heroStats.map((s, i) =>
-                              i === idx ? { ...s, sub: e.target.value } : s
-                            )
-                          )
-                        }
-                      />
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>
