@@ -16,7 +16,7 @@ function ProjectCard({ project, onSelect, delay = 0 }) {
       />
 
       {/* Image Header */}
-      <div className="h-56 sm:h-64 w-full overflow-hidden relative bg-slate-900/90 flex items-center justify-center p-5 border-b border-white/5">
+      <div className="h-44 sm:h-52 w-full overflow-hidden relative bg-slate-900/90 flex items-center justify-center p-4 border-b border-white/5">
         <img
           src={project.image}
           alt={project.title}
@@ -37,15 +37,15 @@ function ProjectCard({ project, onSelect, delay = 0 }) {
       </div>
 
       {/* Card Body */}
-      <div className="p-6 flex flex-col flex-1 relative z-10">
-        <div className="flex items-center justify-between gap-2 mb-2">
+      <div className="p-5 flex flex-col flex-1 relative z-10">
+        <div className="flex items-center justify-between gap-2 mb-1.5">
           <span className="text-[11px] font-semibold uppercase tracking-wider text-blue-400">
             {project.categoryLabel}
           </span>
           <span className="text-xs text-slate-400">{project.role}</span>
         </div>
 
-        <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors">
+        <h3 className="text-lg sm:text-xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors">
           {project.title}
         </h3>
 
@@ -107,13 +107,13 @@ export default function Projects({ onSelectProject }) {
   const showSelf = filter === 'all' || filter === 'self';
 
   return (
-    <section id="projects" className="py-24 relative">
-      <div className="container mx-auto px-6">
+    <section id="projects" className="py-16 md:py-20 relative">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-10" data-aos="fade-up">
           <p className="text-xs font-semibold tracking-widest text-purple-400 uppercase mb-2">
             Portfolio Work
           </p>
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-3">
+          <h2 className="text-2xl md:text-3xl font-display font-bold text-white mb-3">
             Shipped Systems & Projects
           </h2>
           <p className="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto mb-5">

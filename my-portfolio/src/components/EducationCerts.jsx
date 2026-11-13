@@ -14,8 +14,8 @@ export default function EducationCerts() {
 
   return (
     <>
-      <section id="education" className="py-24">
-        <div className="container mx-auto px-6 grid md:grid-cols-2 gap-12">
+      <section id="education" className="py-16 md:py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-10">
           <div data-aos="fade-right">
             <h3 className="text-2xl font-display font-bold mb-8 text-white border-l-4 border-blue-500 pl-4">
               Education
@@ -76,8 +76,8 @@ export default function EducationCerts() {
         </div>
       </section>
 
-      <section className="py-20 bg-slate-900/30 backdrop-blur-sm border-t border-white/5">
-        <div className="container mx-auto px-6">
+      <section className="py-16 bg-slate-900/30 backdrop-blur-sm border-t border-white/5">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12" data-aos="fade-up">
             <h2 className="text-2xl md:text-3xl font-display font-bold text-white mb-2">
               Professional & Character References

@@ -18,8 +18,8 @@ export default function ContactFooter() {
   };
 
   return (
-    <footer id="contact" className="bg-black/80 py-16 border-t border-slate-800 backdrop-blur-md">
-      <div className="container mx-auto px-6 text-center max-w-3xl">
+    <footer id="contact" className="bg-black/80 py-14 border-t border-slate-800 backdrop-blur-md">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
         <p className="text-xs font-semibold tracking-widest text-blue-400 uppercase mb-2">
           Get In Touch
         </p>

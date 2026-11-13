@@ -29,8 +29,8 @@ export default function Navbar() {
 
   return (
     <nav className="fixed w-full z-50 glass-panel top-0 border-b border-white/5" aria-label="Primary Navigation">
-      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <a href="#about" className="text-2xl font-display font-bold tracking-tighter text-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+        <a href="#about" className="text-xl sm:text-2xl font-display font-bold tracking-tighter text-white">
           {profile.brand}
           <span className="text-blue-500">.</span>
         </a>

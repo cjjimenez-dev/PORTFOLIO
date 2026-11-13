@@ -14,13 +14,13 @@ export default function Skills() {
   const { capabilityPillars, softSkills, languages, affiliations } = config;
 
   return (
-    <section id="skills" className="py-24 relative">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16" data-aos="fade-up">
+    <section id="skills" className="py-16 md:py-20 relative">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-12" data-aos="fade-up">
           <p className="text-xs font-semibold tracking-widest text-blue-400 uppercase mb-2">
             Capabilities
           </p>
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-3">
+          <h2 className="text-2xl md:text-3xl font-display font-bold text-white mb-3">
             Technical Arsenal
           </h2>
           <div className="h-1 w-20 bg-blue-500 mx-auto rounded-full" />
