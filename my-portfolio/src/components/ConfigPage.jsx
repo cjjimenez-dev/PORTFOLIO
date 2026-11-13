@@ -28,8 +28,8 @@ const TABS = [
 ];
 
 const inputClass =
-  'w-full bg-slate-950/80 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition';
-const labelClass = 'block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5';
+  'w-full bg-slate-950/80 border border-white/10 rounded-lg px-2.5 py-1.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition';
+const labelClass = 'block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1';
 
 function ProjectEditor({ projects, category, onChange }) {
   const isCompany = category === 'company';
@@ -96,21 +96,21 @@ function ProjectEditor({ projects, category, onChange }) {
       )}
 
       {projects.map((project, idx) => (
-        <div key={project.id || idx} className="glass-card p-6 rounded-2xl space-y-4">
-          <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-3">
-            <h3 className="text-base font-bold text-white">
+        <div key={project.id || idx} className="glass-card p-4 sm:p-5 rounded-xl space-y-3.5">
+          <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-2.5">
+            <h3 className="text-sm sm:text-base font-bold text-white">
               #{idx + 1} — {project.title || 'Untitled Project'}
             </h3>
             <button
               type="button"
               onClick={() => handleRemove(idx)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 text-xs font-semibold transition"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 text-xs font-semibold transition"
             >
               <Trash2 className="w-3.5 h-3.5" /> Remove
             </button>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
             <div>
               <label className={labelClass}>Title</label>
               <input
@@ -355,32 +355,32 @@ export default function ConfigPage({ onBack }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#020617] text-slate-200 pb-20">
-      {/* Top Bar */}
+    <div className="min-h-screen bg-[#020617] text-slate-200 pb-16">
+      {/* Compact Sticky Top Bar + Tabs */}
       <header className="sticky top-0 z-40 glass-panel border-b border-white/10">
-        <div className="container mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={onBack}
-              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-sm font-medium border border-white/10 transition"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium border border-white/10 transition"
             >
-              <ArrowLeft className="w-4 h-4" /> Back to Portfolio
+              <ArrowLeft className="w-3.5 h-3.5" /> Back
             </button>
             <div>
-              <h1 className="text-lg sm:text-xl font-display font-bold text-white">
+              <h1 className="text-sm sm:text-base font-display font-bold text-white leading-tight">
                 Portfolio Config Studio
               </h1>
-              <p className="text-xs text-slate-400">
-                Changes save automatically to your browser. Export JSON anytime to back up.
+              <p className="text-[11px] text-slate-400 hidden sm:block">
+                Auto-saved to browser • Export JSON to back up
               </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2.5">
+          <div className="flex flex-wrap items-center gap-2">
             {statusMessage && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-medium">
-                <Check className="w-3.5 h-3.5" /> {statusMessage}
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-[11px] font-medium">
+                <Check className="w-3 h-3" /> {statusMessage}
               </span>
             )}
             <input
@@ -393,31 +393,29 @@ export default function ConfigPage({ onBack }) {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-white/10 transition"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-white/10 transition"
             >
-              <Upload className="w-3.5 h-3.5" /> Import JSON
+              <Upload className="w-3.5 h-3.5" /> Import
             </button>
             <button
               type="button"
               onClick={handleExport}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition"
             >
-              <Download className="w-3.5 h-3.5" /> Export JSON
+              <Download className="w-3.5 h-3.5" /> Export
             </button>
             <button
               type="button"
               onClick={handleReset}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-300 text-xs font-semibold border border-red-500/20 transition"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-300 text-xs font-semibold border border-red-500/20 transition"
             >
               <RotateCcw className="w-3.5 h-3.5" /> Reset
             </button>
           </div>
         </div>
-      </header>
 
-      <div className="container mx-auto px-6 pt-8 grid lg:grid-cols-[240px_1fr] gap-8">
-        {/* Sidebar Tabs */}
-        <aside className="space-y-1.5">
+        {/* Horizontal Tab Bar */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 pb-2.5 flex items-center gap-1.5 overflow-x-auto">
           {TABS.map((tab) => {
             const active = activeTab === tab.id;
             return (
@@ -425,21 +423,23 @@ export default function ConfigPage({ onBack }) {
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
-                className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition ${
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition ${
                   active
-                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20'
-                    : 'bg-slate-900/60 text-slate-300 hover:bg-slate-800 border border-white/5'
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20'
+                    : 'bg-slate-900/70 text-slate-300 hover:bg-slate-800 border border-white/5'
                 }`}
               >
-                <tab.icon className="w-4 h-4" />
+                <tab.icon className="w-3.5 h-3.5" />
                 {tab.label}
               </button>
             );
           })}
-        </aside>
+        </div>
+      </header>
 
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-6">
         {/* Main Editor Area */}
-        <main className="space-y-8">
+        <main className="space-y-6">
           {/* 1. PROFILE & STATS */}
           {activeTab === 'profile' && (
             <div className="space-y-6">
