@@ -1,25 +1,34 @@
-import { useState } from 'react';
-import { Building2, ExternalLink, Sparkles, ArrowUpRight, Layers } from 'lucide-react';
+import { useRef, useState } from 'react';
+import {
+  ArrowUpRight,
+  Building2,
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  Layers,
+  Sparkles,
+} from 'lucide-react';
 import { getTagIcon } from '../data/portfolioData';
 import { usePortfolio } from '../context/PortfolioContext';
 
-function ProjectCard({ project, onSelect, delay = 0 }) {
+function ProjectCard({ project, onSelect, draggedRef }) {
   return (
     <article
-      className={`glass-card rounded-2xl border ${project.border} relative overflow-hidden group flex flex-col cursor-pointer hover:-translate-y-1.5 transition-all duration-300`}
-      data-aos="fade-up"
-      data-aos-delay={delay}
-      onClick={() => onSelect(project)}
+      className={`glass-card rounded-2xl border ${project.border} relative overflow-hidden group flex flex-col cursor-pointer flex-shrink-0 w-[84vw] sm:w-[330px] md:w-[355px] snap-start hover:-translate-y-1 transition-all duration-300`}
+      onClick={() => {
+        if (!draggedRef.current) onSelect(project);
+      }}
     >
       <div
         className={`absolute inset-0 bg-gradient-to-br ${project.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}
       />
 
       {/* Image Header */}
-      <div className="h-44 sm:h-52 w-full overflow-hidden relative bg-slate-900/90 flex items-center justify-center p-4 border-b border-white/5">
+      <div className="h-44 w-full overflow-hidden relative bg-slate-900/90 flex items-center justify-center p-3.5 border-b border-white/5">
         <img
           src={project.image}
           alt={project.title}
+          draggable="false"
           loading="lazy"
           decoding="async"
           className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105 relative z-0"
@@ -29,7 +38,7 @@ function ProjectCard({ project, onSelect, delay = 0 }) {
           }}
         />
         {project.gallery && project.gallery.length > 1 && (
-          <span className="absolute top-3 right-3 z-10 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-950/80 border border-white/10 text-[11px] font-medium text-slate-200">
+          <span className="absolute top-2.5 right-2.5 z-10 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-950/85 border border-white/10 text-[10px] font-medium text-slate-200">
             <Layers className="w-3 h-3 text-blue-400" />
             {project.gallery.length} Screens
           </span>
@@ -37,42 +46,47 @@ function ProjectCard({ project, onSelect, delay = 0 }) {
       </div>
 
       {/* Card Body */}
-      <div className="p-5 flex flex-col flex-1 relative z-10">
-        <div className="flex items-center justify-between gap-2 mb-1.5">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-blue-400">
+      <div className="p-4 sm:p-5 flex flex-col flex-1 relative z-10">
+        <div className="flex items-center justify-between gap-2 mb-1">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-blue-400 truncate">
             {project.categoryLabel}
           </span>
-          <span className="text-xs text-slate-400">{project.role}</span>
+          <span className="text-[11px] text-slate-400 truncate max-w-[140px]">{project.role}</span>
         </div>
 
-        <h3 className="text-lg sm:text-xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors">
+        <h3 className="text-base sm:text-lg font-bold text-white mb-1.5 group-hover:text-blue-300 transition-colors line-clamp-1">
           {project.title}
         </h3>
 
-        <p className="text-sm text-slate-300 leading-relaxed mb-5 line-clamp-3 flex-1">
+        <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4 line-clamp-2 flex-1">
           {project.description}
         </p>
 
         {/* Tech Stack Tags */}
-        <div className="flex flex-wrap gap-2 mb-5">
-          {project.tags.map((tag) => {
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          {(project.tags || []).slice(0, 4).map((tag) => {
             const Icon = getTagIcon(tag);
             return (
               <span
                 key={tag}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-900/80 border border-white/10 rounded-full text-xs font-medium text-slate-300"
+                className="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-900/80 border border-white/10 rounded-full text-[11px] font-medium text-slate-300"
               >
-                {Icon && <Icon className="w-3.5 h-3.5" />}
+                {Icon && <Icon className="w-3 h-3" />}
                 {tag}
               </span>
             );
           })}
+          {(project.tags || []).length > 4 && (
+            <span className="inline-flex items-center px-2 py-0.5 bg-slate-900/80 border border-white/10 rounded-full text-[11px] text-slate-400">
+              +{project.tags.length - 4}
+            </span>
+          )}
         </div>
 
         {/* Card Actions */}
-        <div className="flex items-center justify-between pt-4 border-t border-white/10">
-          <span className="inline-flex items-center gap-1 text-sm font-semibold text-white group-hover:text-blue-400 transition-colors">
-            View Case Study <ArrowUpRight className="w-4 h-4" />
+        <div className="flex items-center justify-between pt-3 border-t border-white/10">
+          <span className="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-white group-hover:text-blue-400 transition-colors">
+            View Case Study <ArrowUpRight className="w-3.5 h-3.5" />
           </span>
 
           {project.liveUrl && (
@@ -81,14 +95,112 @@ function ProjectCard({ project, onSelect, delay = 0 }) {
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600 text-blue-300 hover:text-white border border-blue-500/30 text-xs font-semibold transition"
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-600/20 hover:bg-blue-600 text-blue-300 hover:text-white border border-blue-500/30 text-[11px] font-semibold transition"
             >
-              <ExternalLink className="w-3.5 h-3.5" /> Live Demo
+              <ExternalLink className="w-3 h-3" /> Live Demo
             </a>
           )}
         </div>
       </div>
     </article>
+  );
+}
+
+function ProjectCarousel({ title, subtitle, icon: HeaderIcon, iconStyle, projects, onSelectProject }) {
+  const trackRef = useRef(null);
+  const isDraggingRef = useRef(false);
+  const draggedRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftRef = useRef(0);
+  const [dragging, setDragging] = useState(false);
+
+  const scrollByCard = (direction) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const step = Math.min(380, el.clientWidth * 0.85);
+    el.scrollBy({ left: direction * step, behavior: 'smooth' });
+  };
+
+  const handleMouseDown = (e) => {
+    const el = trackRef.current;
+    if (!el) return;
+    isDraggingRef.current = true;
+    draggedRef.current = false;
+    setDragging(true);
+    startXRef.current = e.pageX - el.offsetLeft;
+    scrollLeftRef.current = el.scrollLeft;
+  };
+
+  const handleMouseUpOrLeave = () => {
+    isDraggingRef.current = false;
+    setDragging(false);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDraggingRef.current || !trackRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - trackRef.current.offsetLeft;
+    const walk = (x - startXRef.current) * 1.5;
+    if (Math.abs(walk) > 8) draggedRef.current = true;
+    trackRef.current.scrollLeft = scrollLeftRef.current - walk;
+  };
+
+  return (
+    <div className="mb-12 last:mb-0">
+      <div className="flex items-center justify-between gap-4 mb-5">
+        <div className="flex items-center gap-3">
+          <div className={`p-2 rounded-lg border ${iconStyle}`}>
+            <HeaderIcon className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="text-lg sm:text-xl font-display font-bold text-white">{title}</h3>
+            <p className="text-xs text-slate-400">{subtitle}</p>
+          </div>
+        </div>
+
+        {/* Carousel Arrow Controls */}
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <button
+            type="button"
+            onClick={() => scrollByCard(-1)}
+            aria-label={`Scroll ${title} left`}
+            className="p-2 rounded-full bg-slate-900/80 hover:bg-slate-800 border border-white/10 text-slate-300 hover:text-white transition"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollByCard(1)}
+            aria-label={`Scroll ${title} right`}
+            className="p-2 rounded-full bg-slate-900/80 hover:bg-slate-800 border border-white/10 text-slate-300 hover:text-white transition"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+
+      {/* Horizontal Carousel Track */}
+      <div
+        ref={trackRef}
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseUpOrLeave}
+        onMouseUp={handleMouseUpOrLeave}
+        onMouseMove={handleMouseMove}
+        className={`flex gap-5 overflow-x-auto pb-3 pt-1 px-1 -mx-1 select-none cursor-grab active:cursor-grabbing no-scrollbar ${
+          !dragging ? 'snap-x snap-mandatory scroll-smooth' : ''
+        }`}
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        {projects.map((project) => (
+          <ProjectCard
+            key={project.id || project.title}
+            project={project}
+            onSelect={onSelectProject}
+            draggedRef={draggedRef}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -109,21 +221,21 @@ export default function Projects({ onSelectProject }) {
   return (
     <section id="projects" className="py-16 md:py-20 relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-10" data-aos="fade-up">
-          <p className="text-xs font-semibold tracking-widest text-purple-400 uppercase mb-2">
+        <div className="text-center mb-8" data-aos="fade-up">
+          <p className="text-xs font-semibold tracking-widest text-purple-400 uppercase mb-1.5">
             Portfolio Work
           </p>
-          <h2 className="text-2xl md:text-3xl font-display font-bold text-white mb-3">
+          <h2 className="text-2xl md:text-3xl font-display font-bold text-white mb-2.5">
             Shipped Systems & Projects
           </h2>
-          <p className="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto mb-5">
+          <p className="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto mb-4">
             Separated into production software built for company operations and independent self-initiated projects.
           </p>
-          <div className="h-1 w-20 bg-purple-500 mx-auto rounded-full" />
+          <div className="h-1 w-16 bg-purple-500 mx-auto rounded-full" />
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex flex-wrap justify-center gap-2.5 mb-14" role="tablist" aria-label="Filter projects">
+        <div className="flex flex-wrap justify-center gap-2 mb-10" role="tablist" aria-label="Filter projects">
           {tabs.map((tab) => {
             const active = filter === tab.id;
             return (
@@ -133,7 +245,7 @@ export default function Projects({ onSelectProject }) {
                 role="tab"
                 aria-selected={active}
                 onClick={() => setFilter(tab.id)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition ${
+                className={`px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium transition ${
                   active
                     ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25'
                     : 'bg-slate-900/70 text-slate-300 border border-white/10 hover:bg-slate-800 hover:text-white'
@@ -145,64 +257,26 @@ export default function Projects({ onSelectProject }) {
           })}
         </div>
 
-        {/* 1. Company & Production Programs */}
         {showCompany && (
-          <div className="mb-16">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-400">
-                <Building2 className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="text-xl sm:text-2xl font-display font-bold text-white">
-                  Company & Production Systems
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-400">
-                  Commercial software engineered for Lucky Boba Food & Beverage Trading Corp
-                </p>
-              </div>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-8">
-              {companyProjects.map((project, i) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  onSelect={onSelectProject}
-                  delay={i * 80}
-                />
-              ))}
-            </div>
-          </div>
+          <ProjectCarousel
+            title="Company & Production Systems"
+            subtitle="Production software engineered for enterprise & commercial operations"
+            icon={Building2}
+            iconStyle="bg-orange-500/10 border-orange-500/20 text-orange-400"
+            projects={companyProjects}
+            onSelectProject={onSelectProject}
+          />
         )}
 
-        {/* 2. Self & Independent Projects */}
         {showSelf && (
-          <div>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400">
-                <Sparkles className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="text-xl sm:text-2xl font-display font-bold text-white">
-                  Self & Independent Projects
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-400">
-                  Personal SaaS tools, serverless utilities, and full-stack web applications
-                </p>
-              </div>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {selfProjects.map((project, i) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  onSelect={onSelectProject}
-                  delay={i * 80}
-                />
-              ))}
-            </div>
-          </div>
+          <ProjectCarousel
+            title="Self & Independent Projects"
+            subtitle="Personal SaaS tools, serverless utilities, and full-stack web applications"
+            icon={Sparkles}
+            iconStyle="bg-blue-500/10 border-blue-500/20 text-blue-400"
+            projects={selfProjects}
+            onSelectProject={onSelectProject}
+          />
         )}
       </div>
     </section>
