@@ -36,8 +36,27 @@ import {
   SiTypescript,
   SiVercel,
   SiPwa,
+  SiDotnet,
+  SiMysql,
+  SiPostgresql,
+  SiSqlite,
+  SiMongodb,
+  SiRedis,
+  SiPython,
+  SiNextdotjs,
+  SiVuedotjs,
+  SiAngular,
+  SiExpress,
+  SiDocker,
+  SiSupabase,
+  SiGraphql,
+  SiVite,
+  SiBootstrap,
+  SiPrisma,
+  SiAndroid,
 } from 'react-icons/si';
-import { FaJava } from 'react-icons/fa';
+import { FaAws, FaDatabase, FaJava } from 'react-icons/fa';
+import { TbBrandCSharp } from 'react-icons/tb';
 
 export const profile = {
   brand: 'CJ',
@@ -150,21 +169,52 @@ export const toolGroups = [
   { label: 'QA & Testing', items: 'Manual Testing, Alpha & Beta Testing', Icon: TestTube, color: 'text-pink-400' },
 ];
 
+const TAG_ICON_RULES = [
+  { match: (t) => t === 'c#' || t.includes('csharp'), icon: TbBrandCSharp },
+  { match: (t) => t.includes('.net') && !t.includes('ado.net'), icon: SiDotnet },
+  { match: (t) => t.includes('sql server') || t.includes('mssql'), icon: FaDatabase },
+  { match: (t) => t.includes('mysql'), icon: SiMysql },
+  { match: (t) => t.includes('postgres'), icon: SiPostgresql },
+  { match: (t) => t.includes('sqlite'), icon: SiSqlite },
+  { match: (t) => t.includes('mongo'), icon: SiMongodb },
+  { match: (t) => t.includes('redis'), icon: SiRedis },
+  { match: (t) => t.includes('next'), icon: SiNextdotjs },
+  { match: (t) => t.includes('react'), icon: SiReact },
+  { match: (t) => t.includes('vue'), icon: SiVuedotjs },
+  { match: (t) => t.includes('angular'), icon: SiAngular },
+  { match: (t) => t.includes('tailwind'), icon: SiTailwindcss },
+  { match: (t) => t.includes('bootstrap'), icon: SiBootstrap },
+  { match: (t) => t.includes('typescript'), icon: SiTypescript },
+  { match: (t) => t.includes('javascript') || t === 'js', icon: SiJavascript },
+  { match: (t) => t.includes('html'), icon: SiHtml5 },
+  { match: (t) => t.includes('css'), icon: SiCss },
+  { match: (t) => t.includes('node'), icon: SiNodedotjs },
+  { match: (t) => t.includes('express'), icon: SiExpress },
+  { match: (t) => t.includes('laravel'), icon: SiLaravel },
+  { match: (t) => t.includes('php'), icon: SiPhp },
+  { match: (t) => t.includes('python'), icon: SiPython },
+  { match: (t) => t.includes('fastapi'), icon: SiFastapi },
+  { match: (t) => t.includes('java'), icon: FaJava },
+  { match: (t) => t.includes('flutter'), icon: SiFlutter },
+  { match: (t) => t.includes('dart'), icon: SiDart },
+  { match: (t) => t.includes('android'), icon: SiAndroid },
+  { match: (t) => t.includes('firebase'), icon: SiFirebase },
+  { match: (t) => t.includes('supabase'), icon: SiSupabase },
+  { match: (t) => t.includes('prisma'), icon: SiPrisma },
+  { match: (t) => t.includes('graphql'), icon: SiGraphql },
+  { match: (t) => t.includes('docker'), icon: SiDocker },
+  { match: (t) => t.includes('vite'), icon: SiVite },
+  { match: (t) => t.includes('pwa'), icon: SiPwa },
+  { match: (t) => t.includes('serverless') || t.includes('vercel'), icon: SiVercel },
+  { match: (t) => t.includes('aws'), icon: FaAws },
+  { match: (t) => t.includes('github'), icon: SiGithub },
+  { match: (t) => t === 'git', icon: SiGit },
+];
+
 export const getTagIcon = (tag) => {
-  const t = tag.toLowerCase();
-  if (t.includes('react')) return SiReact;
-  if (t.includes('tailwind')) return SiTailwindcss;
-  if (t.includes('node.js')) return SiNodedotjs;
-  if (t.includes('laravel')) return SiLaravel;
-  if (t.includes('pwa')) return SiPwa;
-  if (t.includes('flutter')) return SiFlutter;
-  if (t.includes('firebase')) return SiFirebase;
-  if (t.includes('dart')) return SiDart;
-  if (t.includes('fastapi')) return SiFastapi;
-  if (t.includes('typescript')) return SiTypescript;
-  if (t.includes('serverless')) return SiVercel;
-  if (t.includes('php')) return SiPhp;
-  return null;
+  const t = tag.trim().toLowerCase();
+  const found = TAG_ICON_RULES.find((rule) => rule.match(t));
+  return found ? found.icon : null;
 };
 
 export const companyProjects = [
