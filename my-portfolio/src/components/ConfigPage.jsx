@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react';
 import {
+  ArrowDown,
   ArrowLeft,
+  ArrowUp,
   Building2,
   Download,
   GraduationCap,
@@ -30,6 +32,14 @@ const TABS = [
 const inputClass =
   'w-full bg-slate-950/80 border border-white/10 rounded-lg px-2.5 py-1.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition';
 const labelClass = 'block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1';
+
+const moveItem = (list, index, delta) => {
+  const target = index + delta;
+  if (target < 0 || target >= list.length) return list;
+  const next = [...list];
+  [next[index], next[target]] = [next[target], next[index]];
+  return next;
+};
 
 const compressImageToDataUrl = (file, maxWidth = 1200, quality = 0.82) =>
   new Promise((resolve, reject) => {
@@ -122,13 +132,35 @@ function ProjectEditor({ projects, category, onChange }) {
             <h3 className="text-sm sm:text-base font-bold text-white">
               #{idx + 1} — {project.title || 'Untitled Project'}
             </h3>
-            <button
-              type="button"
-              onClick={() => handleRemove(idx)}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 text-xs font-semibold transition"
-            >
-              <Trash2 className="w-3.5 h-3.5" /> Remove
-            </button>
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                disabled={idx === 0}
+                onClick={() => onChange(moveItem(projects, idx, -1))}
+                title="Move Up"
+                aria-label="Move project up"
+                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:pointer-events-none text-slate-200 border border-white/10 transition"
+              >
+                <ArrowUp className="w-3.5 h-3.5" />
+              </button>
+              <button
+                type="button"
+                disabled={idx === projects.length - 1}
+                onClick={() => onChange(moveItem(projects, idx, 1))}
+                title="Move Down"
+                aria-label="Move project down"
+                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:pointer-events-none text-slate-200 border border-white/10 transition"
+              >
+                <ArrowDown className="w-3.5 h-3.5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => handleRemove(idx)}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 text-xs font-semibold transition"
+              >
+                <Trash2 className="w-3.5 h-3.5" /> Remove
+              </button>
+            </div>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -766,20 +798,42 @@ export default function ConfigPage({ onBack }) {
 
                   {config[key].map((job, idx) => (
                     <div key={idx} className="bg-slate-900/70 border border-white/10 rounded-xl p-4 space-y-3">
-                      <div className="flex justify-between items-center">
+                      <div className="flex justify-between items-center gap-2">
                         <span className="text-xs font-bold text-slate-400">#{idx + 1} — {job.role}</span>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            updateConfig(
-                              key,
-                              config[key].filter((_, i) => i !== idx)
-                            )
-                          }
-                          className="text-red-400 hover:text-red-300 text-xs"
-                        >
-                          Remove
-                        </button>
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            type="button"
+                            disabled={idx === 0}
+                            onClick={() => updateConfig(key, moveItem(config[key], idx, -1))}
+                            title="Move Up"
+                            aria-label="Move role up"
+                            className="p-1 rounded-md bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:pointer-events-none text-slate-200 border border-white/10 transition"
+                          >
+                            <ArrowUp className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            disabled={idx === config[key].length - 1}
+                            onClick={() => updateConfig(key, moveItem(config[key], idx, 1))}
+                            title="Move Down"
+                            aria-label="Move role down"
+                            className="p-1 rounded-md bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:pointer-events-none text-slate-200 border border-white/10 transition"
+                          >
+                            <ArrowDown className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              updateConfig(
+                                key,
+                                config[key].filter((_, i) => i !== idx)
+                              )
+                            }
+                            className="text-red-400 hover:text-red-300 text-xs px-1.5"
+                          >
+                            Remove
+                          </button>
+                        </div>
                       </div>
                       <div className="grid sm:grid-cols-3 gap-3">
                         <input
