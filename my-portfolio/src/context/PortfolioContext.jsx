@@ -25,7 +25,7 @@ const buildDefaultConfig = () => ({
   heroStats: [...defaultHeroStats],
   capabilityPillars: defaultCapabilityPillars.map((item, idx) => ({
     ...omitIcons(item),
-    iconKey: ['globe', 'server', 'smartphone', 'shield'][idx] || 'globe',
+    iconKey: ['globe', 'server', 'smartphone', 'desktop', 'shield'][idx] || 'globe',
   })),
   softSkills: [...defaultSoftSkills],
   languages: [...defaultLanguages],

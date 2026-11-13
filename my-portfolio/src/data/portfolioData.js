@@ -16,6 +16,7 @@ import {
   Globe,
   Server,
   ShieldCheck,
+  Monitor,
 } from 'lucide-react';
 import {
   SiHtml5,
@@ -101,6 +102,8 @@ export const techStack = [
   { name: 'Flutter', icon: SiFlutter, color: 'text-sky-400', bg: 'bg-sky-500/10 border-sky-500/20 hover:shadow-sky-500/20' },
   { name: 'Dart', icon: SiDart, color: 'text-teal-300', bg: 'bg-teal-500/10 border-teal-500/20 hover:shadow-teal-500/20' },
   { name: 'Firebase', icon: SiFirebase, color: 'text-amber-400', bg: 'bg-amber-500/10 border-amber-500/20 hover:shadow-amber-500/20' },
+  { name: 'C#', icon: TbBrandCSharp, color: 'text-violet-400', bg: 'bg-violet-500/10 border-violet-500/20 hover:shadow-violet-500/20' },
+  { name: '.NET Framework', icon: SiDotnet, color: 'text-purple-400', bg: 'bg-purple-500/10 border-purple-500/20 hover:shadow-purple-500/20' },
   { name: 'Java', icon: FaJava, color: 'text-orange-400', bg: 'bg-orange-500/10 border-orange-500/20 hover:shadow-orange-500/20' },
   { name: 'HTML5', icon: SiHtml5, color: 'text-orange-400', bg: 'bg-orange-500/10 border-orange-500/20 hover:shadow-orange-500/20' },
   { name: 'CSS3', icon: SiCss, color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20 hover:shadow-blue-500/20' },
@@ -130,6 +133,13 @@ export const capabilityPillars = [
     items: ['Flutter', 'Dart', 'Firebase Auth', 'Workbox PWA', 'Push Notifications'],
     icon: Smartphone,
     accent: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20',
+  },
+  {
+    title: 'Desktop Applications',
+    description: 'Developing enterprise Windows desktop systems for financial reporting, data processing, and Excel automation.',
+    items: ['C#', '.NET Framework 4.8', 'Windows Forms', 'SQL Server', 'ADO.NET', 'DevExpress', 'ClosedXML'],
+    icon: Monitor,
+    accent: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
   },
   {
     title: 'Quality Assurance & DevOps',
@@ -165,6 +175,7 @@ export const toolGroups = [
   { label: 'Frontend', items: 'React, TypeScript, Tailwind CSS, HTML5, CSS3', Icon: FileCode, color: 'text-blue-400' },
   { label: 'Backend', items: 'PHP, Laravel 12, FastAPI, Node.js, Java', Icon: Database, color: 'text-green-400' },
   { label: 'Mobile', items: 'Flutter, Dart, Android Studio, Firebase', Icon: Smartphone, color: 'text-cyan-400' },
+  { label: 'Desktop', items: 'C#, .NET Framework 4.8, Windows Forms, SQL Server, ADO.NET, DevExpress, ClosedXML', Icon: Monitor, color: 'text-amber-400' },
   { label: 'DevOps & IDEs', items: 'Git, GitHub, Vercel, VS Code, NetBeans', Icon: GitBranch, color: 'text-orange-400' },
   { label: 'QA & Testing', items: 'Manual Testing, Alpha & Beta Testing', Icon: TestTube, color: 'text-pink-400' },
 ];

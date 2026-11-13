@@ -1,4 +1,4 @@
-import { Brain, Globe, Layers, Medal, Server, ShieldCheck, Smartphone } from 'lucide-react';
+import { Brain, Globe, Layers, Medal, Monitor, Server, ShieldCheck, Smartphone } from 'lucide-react';
 import { toolGroups } from '../data/portfolioData';
 import { usePortfolio } from '../context/PortfolioContext';
 
@@ -6,6 +6,7 @@ const PILLAR_ICONS = {
   globe: Globe,
   server: Server,
   smartphone: Smartphone,
+  desktop: Monitor,
   shield: ShieldCheck,
 };
 
@@ -27,7 +28,7 @@ export default function Skills() {
         </div>
 
         {/* Engineering Capability Pillars */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
           {capabilityPillars.map((pillar, idx) => {
             const IconComponent = PILLAR_ICONS[pillar.iconKey] || Globe;
             return (
