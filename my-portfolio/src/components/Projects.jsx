@@ -22,7 +22,7 @@ function ProjectCard({ project, index, onSelect, draggedRef }) {
       transition={{ duration: 0.4, delay: Math.min(index * 0.08, 0.32), ease: 'easeOut' }}
       whileHover={{ y: -6, transition: { duration: 0.22, ease: 'easeOut' } }}
       whileTap={{ scale: 0.99 }}
-      className={`glass-card rounded-2xl border ${project.border} relative overflow-hidden group flex flex-col cursor-pointer flex-shrink-0 w-[84vw] sm:w-[330px] md:w-[355px] snap-start transition-shadow duration-300 hover:shadow-2xl hover:shadow-blue-500/10`}
+      className={`glass-card rounded-2xl border ${project.border} relative overflow-hidden group flex flex-col cursor-pointer flex-shrink-0 w-[84vw] sm:w-[340px] md:w-[385px] transition-shadow duration-300 hover:shadow-2xl hover:shadow-blue-500/10`}
       onClick={() => {
         if (!draggedRef.current) onSelect(project);
       }}
@@ -120,15 +120,18 @@ function ProjectCarousel({ title, subtitle, icon: HeaderIcon, iconStyle, project
   const isDraggingRef = useRef(false);
   const isPausedRef = useRef(false);
   const directionRef = useRef(1);
+  const virtualScrollRef = useRef(0);
   const draggedRef = useRef(false);
   const startXRef = useRef(0);
   const scrollLeftRef = useRef(0);
-  const [dragging, setDragging] = useState(false);
   const [scrollState, setScrollState] = useState({ canPrev: false, canNext: true, progress: 0 });
 
   const updateScrollState = () => {
     const el = trackRef.current;
     if (!el) return;
+    if (isPausedRef.current || isDraggingRef.current) {
+      virtualScrollRef.current = el.scrollLeft;
+    }
     const maxScroll = el.scrollWidth - el.clientWidth;
     if (maxScroll <= 2) {
       setScrollState({ canPrev: false, canNext: false, progress: 100 });
@@ -155,7 +158,7 @@ function ProjectCarousel({ title, subtitle, icon: HeaderIcon, iconStyle, project
     let rafId = 0;
     let lastTime = performance.now();
     let pauseUntil = 0;
-    const speedPxPerSec = 22; // gentle slow drift
+    const speedPxPerSec = 32; // smooth visible drift
 
     const tick = (now) => {
       const dt = Math.min((now - lastTime) / 1000, 0.05);
@@ -165,15 +168,19 @@ function ProjectCarousel({ title, subtitle, icon: HeaderIcon, iconStyle, project
       if (el && !isPausedRef.current && !isDraggingRef.current && now >= pauseUntil) {
         const maxScroll = el.scrollWidth - el.clientWidth;
         if (maxScroll > 4) {
-          el.scrollLeft += directionRef.current * speedPxPerSec * dt;
-          if (el.scrollLeft >= maxScroll - 1) {
+          virtualScrollRef.current += directionRef.current * speedPxPerSec * dt;
+          if (virtualScrollRef.current >= maxScroll) {
+            virtualScrollRef.current = maxScroll;
             el.scrollLeft = maxScroll;
             directionRef.current = -1;
             pauseUntil = now + 1200;
-          } else if (el.scrollLeft <= 0) {
+          } else if (virtualScrollRef.current <= 0) {
+            virtualScrollRef.current = 0;
             el.scrollLeft = 0;
             directionRef.current = 1;
             pauseUntil = now + 1200;
+          } else {
+            el.scrollLeft = virtualScrollRef.current;
           }
         }
       }
@@ -188,7 +195,10 @@ function ProjectCarousel({ title, subtitle, icon: HeaderIcon, iconStyle, project
     const el = trackRef.current;
     if (!el) return;
     const step = Math.min(380, el.clientWidth * 0.85);
-    el.scrollBy({ left: direction * step, behavior: 'smooth' });
+    const maxScroll = Math.max(0, el.scrollWidth - el.clientWidth);
+    const next = Math.min(maxScroll, Math.max(0, el.scrollLeft + direction * step));
+    virtualScrollRef.current = next;
+    el.scrollTo({ left: next, behavior: 'smooth' });
   };
 
   const handleMouseDown = (e) => {
@@ -196,14 +206,15 @@ function ProjectCarousel({ title, subtitle, icon: HeaderIcon, iconStyle, project
     if (!el) return;
     isDraggingRef.current = true;
     draggedRef.current = false;
-    setDragging(true);
     startXRef.current = e.pageX - el.offsetLeft;
     scrollLeftRef.current = el.scrollLeft;
   };
 
   const handleMouseUpOrLeave = () => {
     isDraggingRef.current = false;
-    setDragging(false);
+    if (trackRef.current) {
+      virtualScrollRef.current = trackRef.current.scrollLeft;
+    }
   };
 
   const handleMouseMove = (e) => {
@@ -212,7 +223,9 @@ function ProjectCarousel({ title, subtitle, icon: HeaderIcon, iconStyle, project
     const x = e.pageX - trackRef.current.offsetLeft;
     const walk = (x - startXRef.current) * 1.5;
     if (Math.abs(walk) > 8) draggedRef.current = true;
-    trackRef.current.scrollLeft = scrollLeftRef.current - walk;
+    const next = scrollLeftRef.current - walk;
+    trackRef.current.scrollLeft = next;
+    virtualScrollRef.current = trackRef.current.scrollLeft;
   };
 
   return (
@@ -281,9 +294,7 @@ function ProjectCarousel({ title, subtitle, icon: HeaderIcon, iconStyle, project
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUpOrLeave}
         onMouseMove={handleMouseMove}
-        className={`flex gap-5 overflow-x-auto pb-3 pt-1 px-1 -mx-1 select-none cursor-grab active:cursor-grabbing no-scrollbar ${
-          !dragging ? 'snap-x snap-proximity' : ''
-        }`}
+        className="flex gap-5 overflow-x-auto pb-3 pt-1 px-1 -mx-1 select-none cursor-grab active:cursor-grabbing no-scrollbar"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {projects.map((project, idx) => (
