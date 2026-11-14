@@ -118,6 +118,8 @@ function ProjectCard({ project, index, onSelect, draggedRef }) {
 function ProjectCarousel({ title, subtitle, icon: HeaderIcon, iconStyle, projects, onSelectProject }) {
   const trackRef = useRef(null);
   const isDraggingRef = useRef(false);
+  const isPausedRef = useRef(false);
+  const directionRef = useRef(1);
   const draggedRef = useRef(false);
   const startXRef = useRef(0);
   const scrollLeftRef = useRef(0);
@@ -144,6 +146,42 @@ function ProjectCarousel({ title, subtitle, icon: HeaderIcon, iconStyle, project
     updateScrollState();
     window.addEventListener('resize', updateScrollState);
     return () => window.removeEventListener('resize', updateScrollState);
+  }, [projects.length]);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return undefined;
+
+    let rafId = 0;
+    let lastTime = performance.now();
+    let pauseUntil = 0;
+    const speedPxPerSec = 22; // gentle slow drift
+
+    const tick = (now) => {
+      const dt = Math.min((now - lastTime) / 1000, 0.05);
+      lastTime = now;
+
+      const el = trackRef.current;
+      if (el && !isPausedRef.current && !isDraggingRef.current && now >= pauseUntil) {
+        const maxScroll = el.scrollWidth - el.clientWidth;
+        if (maxScroll > 4) {
+          el.scrollLeft += directionRef.current * speedPxPerSec * dt;
+          if (el.scrollLeft >= maxScroll - 1) {
+            el.scrollLeft = maxScroll;
+            directionRef.current = -1;
+            pauseUntil = now + 1200;
+          } else if (el.scrollLeft <= 0) {
+            el.scrollLeft = 0;
+            directionRef.current = 1;
+            pauseUntil = now + 1200;
+          }
+        }
+      }
+      rafId = requestAnimationFrame(tick);
+    };
+
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
   }, [projects.length]);
 
   const scrollByCard = (direction) => {
@@ -227,12 +265,24 @@ function ProjectCarousel({ title, subtitle, icon: HeaderIcon, iconStyle, project
       <div
         ref={trackRef}
         onScroll={updateScrollState}
+        onMouseEnter={() => {
+          isPausedRef.current = true;
+        }}
+        onMouseLeave={() => {
+          isPausedRef.current = false;
+          handleMouseUpOrLeave();
+        }}
+        onTouchStart={() => {
+          isPausedRef.current = true;
+        }}
+        onTouchEnd={() => {
+          isPausedRef.current = false;
+        }}
         onMouseDown={handleMouseDown}
-        onMouseLeave={handleMouseUpOrLeave}
         onMouseUp={handleMouseUpOrLeave}
         onMouseMove={handleMouseMove}
         className={`flex gap-5 overflow-x-auto pb-3 pt-1 px-1 -mx-1 select-none cursor-grab active:cursor-grabbing no-scrollbar ${
-          !dragging ? 'snap-x snap-mandatory scroll-smooth' : ''
+          !dragging ? 'snap-x snap-proximity' : ''
         }`}
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
