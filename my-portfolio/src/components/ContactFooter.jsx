@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Check, Copy, Github, Heart, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
+import { Check, Copy, Github, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
 import { usePortfolio } from '../context/PortfolioContext';
 
 export default function ContactFooter() {
@@ -65,7 +65,7 @@ export default function ContactFooter() {
           </span>
         </div>
 
-        <div className="flex justify-center gap-6 mb-8 text-slate-400">
+        <div className="flex justify-center gap-6 text-slate-400">
           <a
             href={profile.githubUrl}
             target="_blank"
@@ -85,11 +85,6 @@ export default function ContactFooter() {
             <Linkedin className="w-5 h-5" />
           </a>
         </div>
-
-        <p className="text-slate-600 text-xs sm:text-sm flex items-center justify-center gap-1.5">
-          &copy; {new Date().getFullYear()} {profile.name}. Built with{' '}
-          <Heart className="w-3.5 h-3.5 text-red-500 fill-current" />
-        </p>
       </div>
     </footer>
   );
