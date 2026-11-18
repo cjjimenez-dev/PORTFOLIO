@@ -62,6 +62,17 @@ const compressImageToDataUrl = (file, maxWidth = 1200, quality = 0.82) =>
     reader.readAsDataURL(file);
   });
 
+const handleImagePaste = async (e, onImageReady) => {
+  const items = Array.from(e.clipboardData?.items || []);
+  const imageItem = items.find((item) => item.type.startsWith('image/'));
+  if (!imageItem) return;
+  e.preventDefault();
+  const file = imageItem.getAsFile();
+  if (!file) return;
+  const dataUrl = await compressImageToDataUrl(file);
+  onImageReady(dataUrl);
+};
+
 function ProjectEditor({ projects, category, onChange }) {
   const isCompany = category === 'company';
 
@@ -222,8 +233,11 @@ function ProjectEditor({ projects, category, onChange }) {
               />
             </div>
             <div>
-              <label className={labelClass}>Thumbnail Image</label>
-              <div className="flex items-center gap-2">
+              <label className={labelClass}>Thumbnail Image (Choose File or Ctrl+V Paste)</label>
+              <div
+                className="flex items-center gap-2"
+                onPaste={(e) => handleImagePaste(e, (dataUrl) => handleUpdate(idx, 'image', dataUrl))}
+              >
                 {project.image && (
                   <img
                     src={project.image}
@@ -237,7 +251,7 @@ function ProjectEditor({ projects, category, onChange }) {
                 <input
                   type="text"
                   className={inputClass}
-                  placeholder="/images/... or upload from folder"
+                  placeholder="/images/..., Choose File, or Ctrl+V paste"
                   value={project.image?.startsWith('data:') ? 'Uploaded image (stored in browser)' : project.image || ''}
                   readOnly={project.image?.startsWith('data:')}
                   onChange={(e) => handleUpdate(idx, 'image', e.target.value)}
@@ -355,7 +369,17 @@ function ProjectEditor({ projects, category, onChange }) {
                     handleUpdate(idx, 'gallery', nextGallery);
                   }}
                 />
-                <div className="flex items-center gap-2">
+                <div
+                  className="flex items-center gap-2"
+                  onPaste={(e) =>
+                    handleImagePaste(e, (dataUrl) => {
+                      const nextGallery = (project.gallery || []).map((item, i) =>
+                        i === sIdx ? { ...item, src: dataUrl } : item
+                      );
+                      handleUpdate(idx, 'gallery', nextGallery);
+                    })
+                  }
+                >
                   {slide.src && (
                     <img
                       src={slide.src}
@@ -369,7 +393,7 @@ function ProjectEditor({ projects, category, onChange }) {
                   <input
                     type="text"
                     className={inputClass}
-                    placeholder="/images/... or choose file"
+                    placeholder="/images/..., Choose File, or Ctrl+V paste"
                     value={slide.src?.startsWith('data:') ? 'Uploaded image (stored in browser)' : slide.src || ''}
                     readOnly={slide.src?.startsWith('data:')}
                     onChange={(e) => {
