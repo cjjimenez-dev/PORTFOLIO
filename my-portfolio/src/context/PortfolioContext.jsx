@@ -16,6 +16,7 @@ import {
 } from '../data/portfolioData';
 
 const STORAGE_KEY = 'portfolio_config_v1';
+const THEME_STORAGE_KEY = 'portfolio_theme_v1';
 
 const omitIcons = (item) =>
   Object.fromEntries(Object.entries(item).filter(([key]) => key !== 'icon' && key !== 'Icon'));
@@ -64,6 +65,27 @@ export function PortfolioProvider({ children }) {
     return buildDefaultConfig();
   });
 
+  const [theme, setTheme] = useState(() => {
+    try {
+      return localStorage.getItem(THEME_STORAGE_KEY) === 'light' ? 'light' : 'dark';
+    } catch {
+      return 'dark';
+    }
+  });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('light', theme === 'light');
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, theme);
+    } catch {
+      // Ignore storage errors
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
+
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
@@ -94,7 +116,7 @@ export function PortfolioProvider({ children }) {
   };
 
   return (
-    <PortfolioContext.Provider value={{ config, updateConfig, resetConfig, importConfig }}>
+    <PortfolioContext.Provider value={{ config, updateConfig, resetConfig, importConfig, theme, toggleTheme }}>
       {children}
     </PortfolioContext.Provider>
   );

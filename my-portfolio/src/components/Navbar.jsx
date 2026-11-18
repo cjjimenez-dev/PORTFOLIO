@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, Moon, Sun, X } from 'lucide-react';
 import { navLinks } from '../data/portfolioData';
 import { usePortfolio } from '../context/PortfolioContext';
 
 export default function Navbar() {
-  const { config } = usePortfolio();
+  const { config, theme, toggleTheme } = usePortfolio();
   const { profile } = config;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
@@ -61,17 +61,36 @@ export default function Navbar() {
           >
             Contact
           </a>
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            className="p-2 rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-white/10 transition"
+          >
+            {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-300" /> : <Moon className="w-4 h-4 text-slate-700" />}
+          </button>
         </div>
 
-        <button
-          type="button"
-          className="md:hidden text-white p-1.5 rounded-lg hover:bg-white/10 transition"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-          aria-expanded={isMobileMenuOpen}
-        >
-          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+        <div className="md:hidden flex items-center gap-2">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            className="p-1.5 rounded-lg bg-slate-800/80 text-slate-200 border border-white/10 transition"
+          >
+            {theme === 'dark' ? <Sun className="w-5 h-5 text-amber-300" /> : <Moon className="w-5 h-5 text-slate-700" />}
+          </button>
+          <button
+            type="button"
+            className="text-white p-1.5 rounded-lg hover:bg-white/10 transition"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={isMobileMenuOpen}
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
       </div>
 
       {isMobileMenuOpen && (
