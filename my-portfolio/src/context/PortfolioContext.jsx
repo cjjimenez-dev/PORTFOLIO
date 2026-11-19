@@ -49,6 +49,42 @@ const buildDefaultConfig = () => ({
   characterReferences: [...defaultReferences],
 });
 
+const mergeWithDefaults = (savedConfig) => {
+  const defaults = buildDefaultConfig();
+  const merged = { ...defaults, ...savedConfig };
+
+  // Ensure new Desktop Applications pillar is present if saved config predates it
+  if (
+    Array.isArray(merged.capabilityPillars) &&
+    !merged.capabilityPillars.some((p) => p.title === 'Desktop Applications')
+  ) {
+    const desktopPillar = defaults.capabilityPillars.find((p) => p.title === 'Desktop Applications');
+    if (desktopPillar) {
+      merged.capabilityPillars = [...merged.capabilityPillars, desktopPillar];
+    }
+  }
+
+  // Upgrade older localStorage Atelier entry to the 7-screen Atelier 01 gallery
+  const defaultAtelier = defaults.selfProjects.find((p) => p.id === 'atelier-photobooth');
+  if (defaultAtelier && Array.isArray(merged.selfProjects)) {
+    const hasAtelier = merged.selfProjects.some(
+      (p) => p.id === 'atelier-photobooth' || p.title?.trim().toLowerCase() === 'atelier'
+    );
+    if (hasAtelier) {
+      merged.selfProjects = merged.selfProjects.map((p) => {
+        const isOldAtelier =
+          (p.id === 'atelier-photobooth' || p.title?.trim().toLowerCase() === 'atelier') &&
+          (p.gallery?.length || 0) < defaultAtelier.gallery.length;
+        return isOldAtelier ? { ...p, ...defaultAtelier } : p;
+      });
+    } else {
+      merged.selfProjects = [defaultAtelier, ...merged.selfProjects];
+    }
+  }
+
+  return merged;
+};
+
 const PortfolioContext = createContext(null);
 
 export function PortfolioProvider({ children }) {
@@ -57,7 +93,7 @@ export function PortfolioProvider({ children }) {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
-        return { ...buildDefaultConfig(), ...parsed };
+        return mergeWithDefaults(parsed);
       }
     } catch {
       // Fallback to default config if localStorage is unavailable or corrupted
