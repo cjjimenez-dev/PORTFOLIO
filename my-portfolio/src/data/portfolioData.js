@@ -296,6 +296,43 @@ export const companyProjects = [
 
 export const selfProjects = [
   {
+    id: 'atelier-photobooth',
+    category: 'self',
+    categoryLabel: 'Self Project • Optical Kiosk & Web App',
+    title: 'Atelier 01 — Photobooth System',
+    subHeader: '4-Stage Optical Portrait Kiosk, Darkroom Compositor & QR Handoff',
+    role: 'Full-Stack Developer',
+    description:
+      'Interactive 4-stage photobooth kiosk featuring 18 archival themes, WebRTC optical capture with AR props & AI sets, 300 DPI darkroom compositing, QR mobile handoff, and PIN-locked admin console.',
+    details:
+      'Atelier 01 is a full-stack optical portrait kiosk system built with Next.js, Tailwind CSS, and Supabase. Users progress through four streamlined stages: choosing from 18 curated archival themes, capturing shots via WebRTC (or the built-in optical test pattern) with film presets, AI backdrops, and AR reticles, fine-tuning exposure/marks/paper stock in a 300 DPI darkroom compositor, and exporting via scannable QR mobile archive links, email dispatch, or a thermal print bridge.',
+    features: [
+      '18 Archival Themes & Formats: Vintage, Minimalist, Nature, and Cinematic/AI strips, diptychs, and 2×2 grids.',
+      'WebRTC Optical Viewfinder: Live camera & synthetic test pattern with 14 film presets, 14 AI persona sets, and 13 AR reticles.',
+      '300 DPI Darkroom Compositor: Interactive crop/swap controls, EV & glamour glow sliders, 38 stamps/marks, and archival paper stock.',
+      'QR Mobile Archive & Print Bridge: Instant /p/<id> lossless PNG handoff, motion sequence view, email dispatch, and thermal print queue.',
+      'Admin Operator Vault (/admin): PIN-protected studio manager for events, templates, sessions, and print jobs synced via Supabase.',
+    ],
+    tags: ['Next.js', 'React', 'Tailwind CSS', 'Supabase'],
+    architecture: {
+      Frontend: ['Next.js (App Router)', 'React', 'Tailwind CSS', 'WebRTC Media Stream', '300 DPI Canvas Compositor'],
+      Backend: ['Supabase (Postgres & REST)', 'QR Mobile Archive Routes', 'Thermal Print Bridge'],
+    },
+    accent: 'from-emerald-500/20 to-zinc-500/20',
+    border: 'border-emerald-500/30',
+    image: '/images/atelier-landing.png',
+    gallery: [
+      { src: '/images/atelier-landing.png', label: 'Kiosk Landing' },
+      { src: '/images/atelier-themes.png', label: '18 Themes & Formats' },
+      { src: '/images/atelier-capture.png', label: 'Optical Capture & Props' },
+      { src: '/images/atelier-darkroom.png', label: 'Darkroom Compositor' },
+      { src: '/images/atelier-handoff.png', label: 'QR & Print Handoff' },
+      { src: '/images/atelier-mobile.png', label: 'Mobile Archive (/p/)' },
+      { src: '/images/atelier-admin.png', label: 'Admin Vault (/admin)' },
+    ],
+    liveUrl: 'https://atelier-photobooth-system.vercel.app/',
+  },
+  {
     id: 'viderevision',
     category: 'self',
     categoryLabel: 'Self Project • Web Platform',
