@@ -70,13 +70,20 @@ body {
 
 /* ── LIGHT MODE THEME OVERRIDES ── */
 html.light body {
-  background-color: #f8fafc;
+  background-color: #ffffff;
   color: #1e293b;
 }
 
 html.light .bg-\[\#020617\] {
-  background-color: #f8fafc !important;
+  background-color: #ffffff !important;
   color: #1e293b;
+}
+
+html.light .ambient-bg {
+  opacity: 1 !important;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(59, 130, 246, 0.1), transparent),
+    radial-gradient(ellipse 60% 40% at 85% 20%, rgba(20, 184, 166, 0.07), transparent) !important;
 }
 
 html.light .glass-panel {
@@ -173,7 +180,9 @@ html.light .bg-blue-600:hover {
 }
 
 html.light a.bg-white,
-html.light button.bg-white {
+html.light a.bg-white *,
+html.light button.bg-white,
+html.light button.bg-white * {
   background-color: #0f172a !important;
   color: #ffffff !important;
 }

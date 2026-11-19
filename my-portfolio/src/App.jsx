@@ -48,7 +48,7 @@ function PortfolioApp() {
   return (
     <div className="antialiased min-h-screen text-slate-200 bg-[#020617] relative">
       {/* Subtle Ambient Background */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-25 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-800 via-slate-950 to-slate-950" />
+      <div className="ambient-bg fixed inset-0 z-0 pointer-events-none opacity-25 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-800 via-slate-950 to-slate-950" />
 
       <Navbar />
 
