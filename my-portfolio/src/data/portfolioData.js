@@ -296,6 +296,47 @@ export const companyProjects = [
 
 export const selfProjects = [
   {
+    id: 'findiary',
+    category: 'self',
+    categoryLabel: 'Self Project • FinTech PWA & Mobile',
+    title: 'FinDiary — Personal Finance Tracker',
+    subHeader: 'Philippine Peso Finance, Quincena Budgets, Utang Tracker & Mobile Companion',
+    role: 'Full-Stack & Mobile Developer',
+    description:
+      'Personal finance tracker built for Philippine Peso (₱) workflows—featuring Quincena (15th/30th) budgets, GCash/Maya/bank wallet tracking, Utang & Pautang debt management, savings goals, and an Expo + PWA mobile companion.',
+    details:
+      'FinDiary is a full-stack personal finance web and mobile platform tailored for Philippine financial workflows. Built with React 19, Tailwind CSS v4, Supabase (PostgreSQL with Row Level Security), and an Expo native companion app, it supports multi-wallet tracking (GCash, Maya, GoTyme, SeaBank, BDO, BPI, Cash), 15th/30th Quincena payday budgeting, Utang & Pautang settlement tracking, recurring bills (SSS, PhilHealth, Pag-IBIG, utilities), savings sinking funds, CSV/JSON data portability, and installable PWA + QR mobile handoff.',
+    features: [
+      'Multi-Wallet & PH Bank Presets: Track Cash, GCash, Maya, GoTyme, SeaBank, BDO, BPI, UnionBank, and Metrobank balances.',
+      'Quincena & Monthly Budgets: Aligned to Philippine 15th/30th salary schedules with safe daily spend calculation.',
+      'Utang & Pautang Tracker: Manage receivables and liabilities with partial/full settlement logging and net debt balance.',
+      'Bills & Recurring Obligations: Track Meralco, internet, rent, SSS, PhilHealth, and Pag-IBIG by monthly or quincena frequency.',
+      'Savings Goals & Cashflow Reports: Sinking funds, 6-month income vs. expense bar charts, category breakdown, and CSV/RA 10173 JSON export.',
+      'PWA & Expo Mobile Companion: Installable web app plus Expo Go native companion with biometric unlock and QR mobile handoff.',
+    ],
+    tags: ['React 19', 'Tailwind CSS', 'Supabase', 'PWA'],
+    architecture: {
+      Frontend: ['React 19', 'Vite', 'Tailwind CSS v4', 'Workbox PWA', 'Expo / React Native'],
+      Backend: ['Supabase Auth', 'PostgreSQL + Row Level Security (RLS)', 'CSV & RA 10173 JSON Export'],
+    },
+    accent: 'from-emerald-500/20 to-teal-500/20',
+    border: 'border-emerald-500/30',
+    image: '/images/findiary-dashboard.png',
+    gallery: [
+      { src: '/images/findiary-dashboard.png', label: 'Dashboard & Cashflow' },
+      { src: '/images/findiary-transactions.png', label: 'Transactions Ledger' },
+      { src: '/images/findiary-debts.png', label: 'Utang & Pautang Tracker' },
+      { src: '/images/findiary-recurring.png', label: 'Bills & Recurring' },
+      { src: '/images/findiary-goals.png', label: 'Savings Goals' },
+      { src: '/images/findiary-budgets.png', label: 'Quincena Budgets' },
+      { src: '/images/findiary-reports.png', label: 'Financial Reports' },
+      { src: '/images/findiary-accounts.png', label: 'PH Wallets & Banks' },
+      { src: '/images/findiary-mobile.png', label: 'Mobile App & PWA' },
+      { src: '/images/findiary-settings.png', label: 'Payday & RLS Settings' },
+    ],
+    liveUrl: 'https://findiary-six.vercel.app/',
+  },
+  {
     id: 'atelier-photobooth',
     category: 'self',
     categoryLabel: 'Self Project • Optical Kiosk & Web App',

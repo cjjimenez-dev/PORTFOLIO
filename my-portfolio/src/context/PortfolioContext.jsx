@@ -64,23 +64,26 @@ const mergeWithDefaults = (savedConfig) => {
     }
   }
 
-  // Upgrade older localStorage Atelier entry to the 7-screen Atelier 01 gallery
-  const defaultAtelier = defaults.selfProjects.find((p) => p.id === 'atelier-photobooth');
-  if (defaultAtelier && Array.isArray(merged.selfProjects)) {
-    const hasAtelier = merged.selfProjects.some(
-      (p) => p.id === 'atelier-photobooth' || p.title?.trim().toLowerCase() === 'atelier'
+  // Upgrade older localStorage Atelier & FinDiary entries without losing custom edits
+  const upgradeProjectIfNeeded = (defaultId, titleMatcher) => {
+    const defaultProj = defaults.selfProjects.find((p) => p.id === defaultId);
+    if (!defaultProj || !Array.isArray(merged.selfProjects)) return;
+    const hasMatch = merged.selfProjects.some(
+      (p) => p.id === defaultId || titleMatcher(p.title?.trim().toLowerCase() || '')
     );
-    if (hasAtelier) {
+    if (hasMatch) {
       merged.selfProjects = merged.selfProjects.map((p) => {
-        const isOldAtelier =
-          (p.id === 'atelier-photobooth' || p.title?.trim().toLowerCase() === 'atelier') &&
-          (p.gallery?.length || 0) < defaultAtelier.gallery.length;
-        return isOldAtelier ? { ...p, ...defaultAtelier } : p;
+        const isMatch = p.id === defaultId || titleMatcher(p.title?.trim().toLowerCase() || '');
+        const needsUpgrade = isMatch && (p.gallery?.length || 0) < defaultProj.gallery.length;
+        return needsUpgrade ? { ...p, ...defaultProj } : p;
       });
     } else {
-      merged.selfProjects = [defaultAtelier, ...merged.selfProjects];
+      merged.selfProjects = [defaultProj, ...merged.selfProjects];
     }
-  }
+  };
+
+  upgradeProjectIfNeeded('atelier-photobooth', (t) => t === 'atelier');
+  upgradeProjectIfNeeded('findiary', (t) => t.includes('findiary'));
 
   return merged;
 };
