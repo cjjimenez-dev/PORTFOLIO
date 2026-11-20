@@ -296,6 +296,44 @@ export const companyProjects = [
 
 export const selfProjects = [
   {
+    id: 'wrap-up',
+    category: 'self',
+    categoryLabel: 'Self Project • Cryptographic Web App',
+    title: 'Wrap Up — Secret Gift Exchange',
+    subHeader: 'Verifiable Secret Santa / Kris Kringle with Organizer Blindness & Anonymous Chat',
+    role: 'Full-Stack Developer',
+    description:
+      'Cryptographic Secret Gift Exchange web app featuring single-cycle CSPRNG draws (zero self-draws), SHA-256 commitment audit logs, wishlists, two-way anonymous chat, Organizer Studio, and Superadmin moderation.',
+    details:
+      'Wrap Up is a full-stack Secret Gift Exchange platform built with React, Vite, Tailwind CSS, and Supabase PostgreSQL with Row-Level Security (RLS). It guarantees fair, verifiable draws via single-cycle CSPRNG permutation and SHA-256 audit commitments—even keeping organizers blind to match assignments—while supporting 6-character guest access keys, wishlists, anonymous giver–giftee messaging, PDF/ICS exports, and a Superadmin team & template console.',
+    features: [
+      'Verifiable CSPRNG Draw & SHA-256 Audit: Single-cycle permutation with zero self-draws, organizer blindness, PDF receipt, and .ics calendar export.',
+      'Guest Access Keys & Auth: 6-character room invite codes for instant guest entry alongside email/password accounts.',
+      'Wishlists & Anonymous Chat: Saved gift wishes with priorities, match wish previews, and two-way anonymous giver–giftee messaging.',
+      'Organizer Studio: Manage group keys, approve join requests, splice late joiners into sealed cycles, configure exclusion matrices, and use event templates.',
+      'Superadmin Console: Moderate pending team requests, manage reusable event templates, and administer registered users and guest accounts.',
+    ],
+    tags: ['React', 'Tailwind CSS', 'Supabase', 'PWA'],
+    architecture: {
+      Frontend: ['React', 'Vite', 'Tailwind CSS v4', 'Web Crypto (SHA-256)'],
+      Backend: ['Supabase Auth', 'PostgreSQL + RLS & RPCs', 'Vercel Hosting'],
+    },
+    accent: 'from-rose-500/20 to-amber-500/20',
+    border: 'border-rose-500/30',
+    image: '/images/wrapup-draw.png',
+    gallery: [
+      { src: '/images/wrapup-draw.png', label: 'Draw & SHA-256 Audit' },
+      { src: '/images/wrapup-landing.png', label: 'Landing & Access Key' },
+      { src: '/images/wrapup-groups.png', label: 'My Groups' },
+      { src: '/images/wrapup-rules.png', label: 'Rules & Live Pool' },
+      { src: '/images/wrapup-wishlist.png', label: 'Wishlist & Anon Chat' },
+      { src: '/images/wrapup-organizer.png', label: 'Organizer Studio' },
+      { src: '/images/wrapup-superadmin-teams.png', label: 'Superadmin Teams' },
+      { src: '/images/wrapup-superadmin-templates.png', label: 'Superadmin Templates' },
+    ],
+    liveUrl: 'https://wrap-up-draw.vercel.app/',
+  },
+  {
     id: 'findiary',
     category: 'self',
     categoryLabel: 'Self Project • FinTech PWA & Mobile',
