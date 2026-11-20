@@ -85,6 +85,7 @@ const mergeWithDefaults = (savedConfig) => {
   upgradeProjectIfNeeded('atelier-photobooth', (t) => t === 'atelier');
   upgradeProjectIfNeeded('findiary', (t) => t.includes('findiary'));
   upgradeProjectIfNeeded('wrap-up', (t) => t.includes('wrap up') || t.includes('wrap-up'));
+  upgradeProjectIfNeeded('viderevision', (t) => t.includes('videre'));
 
   return merged;
 };
