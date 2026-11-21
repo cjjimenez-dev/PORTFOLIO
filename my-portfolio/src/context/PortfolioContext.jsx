@@ -158,6 +158,7 @@ const mergeWithDefaults = (savedConfig) => {
   upgradeProjectIfNeeded('findiary', (t) => t.includes('findiary'));
   upgradeProjectIfNeeded('wrap-up', (t) => t.includes('wrap up') || t.includes('wrap-up') || t === 'wrap up');
   upgradeProjectIfNeeded('viderevision', (t) => t.includes('videre'));
+  upgradeProjectIfNeeded('resumeforge', (t) => t.includes('resume') || t.includes('resumeforge'));
 
   // Deduplicate selfProjects by ID
   const seenSelfIds = new Set();
