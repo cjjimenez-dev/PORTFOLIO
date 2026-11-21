@@ -56,7 +56,7 @@ import {
   SiPrisma,
   SiAndroid,
 } from 'react-icons/si';
-import { FaAws, FaDatabase, FaJava } from 'react-icons/fa';
+import { FaAws, FaDatabase, FaFileExcel, FaJava, FaWindows } from 'react-icons/fa';
 import { TbBrandCSharp } from 'react-icons/tb';
 
 export const profile = {
@@ -183,7 +183,10 @@ export const toolGroups = [
 const TAG_ICON_RULES = [
   { match: (t) => t === 'c#' || t.includes('csharp'), icon: TbBrandCSharp },
   { match: (t) => t.includes('.net') && !t.includes('ado.net'), icon: SiDotnet },
-  { match: (t) => t.includes('sql server') || t.includes('mssql'), icon: FaDatabase },
+  { match: (t) => t.includes('windows') || t.includes('winforms'), icon: FaWindows },
+  { match: (t) => t.includes('closedxml') || t.includes('excel'), icon: FaFileExcel },
+  { match: (t) => t.includes('devexpress'), icon: SiDotnet },
+  { match: (t) => t.includes('sql server') || t.includes('mssql') || t.includes('ado.net'), icon: FaDatabase },
   { match: (t) => t.includes('mysql'), icon: SiMysql },
   { match: (t) => t.includes('postgres'), icon: SiPostgresql },
   { match: (t) => t.includes('sqlite'), icon: SiSqlite },
@@ -229,6 +232,53 @@ export const getTagIcon = (tag) => {
 };
 
 export const companyProjects = [
+  {
+    id: 'cebuana-refind',
+    category: 'company',
+    categoryLabel: 'Company Production System • Desktop Software',
+    company: 'BCS Systems and Technologies Inc.',
+    title: 'Cebuana ReFind Program',
+    subHeader: 'Enterprise POS Financial Reconciliation, General Ledger & SAP Journal Engine',
+    role: 'MIS Programmer / Desktop Developer',
+    description:
+      'Enterprise Windows desktop software reconciling nationwide multi-branch AutoCount POS retail sales, BIR tax compliance, and automated General Ledger accounting for Cebuana Lhuillier.',
+    details:
+      'Cebuana ReFind is an enterprise desktop financial reconciliation and audit system developed in C# and .NET Framework 4.8 with DevExpress and Microsoft SQL Server for BCS Systems and Technologies Inc. It processes high-volume retail transactions across hundreds of nationwide pawnshop and jewelry branches, reconciling front-of-house AutoCount POS sales invoices, sales orders, customer deposits, and return exchanges with enterprise General Ledger (GL) accounts for automated SAP ERP posting.',
+    features: [
+      'Multi-CTE SQL Reconciliation Engine: 2,700+ line optimized T-SQL query architecture reconciling Sales Invoices (SI), Sales Orders (SO), customer deposits, cancellations, and return exchanges.',
+      'Centavo Decimal Variance & Rounding Resolution: Algorithmic anchor-and-plug solution eliminating 3-decimal to 2-decimal rounding drift between VAT-exclusive line totals and payments down to ₱0.00 variance.',
+      'Philippine BIR Tax Compliance: Dynamic calculation for 12% Output VAT, Senior Citizen / PWD 20% discounts, Zero-Rated transactions (OX), and jewelry attribute classifications (Karat, Weight, Color).',
+      'High-Performance Reporting & Excel Generation: ClosedXML multi-sheet Excel and CSV export engine with reflection-based DataGridView double-buffering for lag-free 60fps data browsing.',
+      'Asynchronous Debounced Search: 250ms debounced live filtering with SQL LIKE wildcard escaping (EscapeLikeValue) across tens of thousands of transaction records.',
+      'Secure Connection & Chart of Accounts Manager: Encrypted database profile storage in LocalApplicationData, dual Windows/SQL authentication testing, and flexible GL account mapping.',
+    ],
+    tags: ['C#', '.NET Framework 4.8', 'Windows Forms', 'SQL Server', 'DevExpress', 'ClosedXML'],
+    architecture: {
+      'Desktop & UI': [
+        'C# / .NET Framework 4.8',
+        'Windows Forms (WinForms)',
+        'DevExpress WinForms v24.1 (XtraBars, XtraEditors)',
+        'Emil Kowalski Minimalist Custom GDI+ Styling',
+        'System Tray Background Service (NotifyIcon)',
+      ],
+      'Database & Processing': [
+        'Microsoft SQL Server (T-SQL Multi-CTE)',
+        'ADO.NET (SqlDataAdapter, SqlCommand)',
+        'ClosedXML v0.105 / DocumentFormat.OpenXml',
+        'AutoCount Retail POS Schema Integration',
+        'SAP General Ledger Journal Formatting',
+      ],
+    },
+    accent: 'from-blue-600/20 to-indigo-600/20',
+    border: 'border-blue-500/30',
+    image: '/images/refind-dashboard.png',
+    gallery: [
+      { src: '/images/refind-dashboard.png', label: 'Emil Kowalski Modern Dashboard' },
+      { src: '/images/refind-reports.png', label: 'Financial Sales & Sold Items Reports' },
+      { src: '/images/refind-accounts.png', label: 'Chart of Accounts & GL Mapping' },
+      { src: '/images/refind-config.png', label: 'SQL Server & Database Configuration' },
+    ],
+  },
   {
     id: 'lucky-boba-pos',
     category: 'company',
@@ -506,6 +556,19 @@ export const selfProjects = [
 ];
 
 export const primaryExperiences = [
+  {
+    role: 'MIS Programmer / Desktop Developer',
+    date: 'Jul 2026 – Present',
+    company: 'BCS Systems and Technologies Inc.',
+    Icon: Code2,
+    color: 'text-indigo-400',
+    bullets: [
+      'Developed and optimized Cebuana ReFind, an enterprise C#/.NET Windows Forms desktop system reconciling nationwide AutoCount retail POS transactions with SAP General Ledger accounts.',
+      'Designed multi-CTE T-SQL reconciliation queries resolving centavo decimal rounding variances, BIR 12% VAT, and SC/PWD discounts across hundreds of branch stores.',
+      'Engineered high-throughput Excel report generation using ClosedXML and automated database connection profiling with encrypted local storage.',
+    ],
+    linkedProjects: ['Cebuana ReFind Program'],
+  },
   {
     role: 'IT Programmer',
     date: 'Feb – Jun 2026',

@@ -35,7 +35,7 @@ const buildDefaultConfig = () => ({
   selfProjects: [...defaultSelfProjects],
   primaryExperiences: defaultPrimaryExperiences.map((item, idx) => ({
     ...omitIcons(item),
-    iconKey: ['code', 'building', 'briefcase'][idx] || 'briefcase',
+    iconKey: ['code', 'code', 'building', 'briefcase'][idx] || 'briefcase',
   })),
   additionalExperiences: defaultAdditionalExperiences.map((item, idx) => ({
     ...omitIcons(item),
@@ -64,7 +64,43 @@ const mergeWithDefaults = (savedConfig) => {
     }
   }
 
-  // Upgrade older localStorage Atelier & FinDiary entries without losing custom edits
+  // Ensure BCS Systems experience is present in primaryExperiences
+  if (
+    Array.isArray(merged.primaryExperiences) &&
+    !merged.primaryExperiences.some((e) => e.company?.includes('BCS Systems') || e.company?.includes('BCS'))
+  ) {
+    const bcsExp = defaults.primaryExperiences.find((e) => e.company?.includes('BCS Systems'));
+    if (bcsExp) {
+      merged.primaryExperiences = [bcsExp, ...merged.primaryExperiences];
+    }
+  }
+
+  // Upgrade company projects (e.g. Cebuana ReFind)
+  const upgradeCompanyProjectIfNeeded = (defaultId, titleMatcher) => {
+    const defaultProj = defaults.companyProjects.find((p) => p.id === defaultId);
+    if (!defaultProj || !Array.isArray(merged.companyProjects)) return;
+    const hasMatch = merged.companyProjects.some(
+      (p) => p.id === defaultId || titleMatcher(p.title?.trim().toLowerCase() || '')
+    );
+    if (hasMatch) {
+      merged.companyProjects = merged.companyProjects.map((p) => {
+        const isMatch = p.id === defaultId || titleMatcher(p.title?.trim().toLowerCase() || '');
+        const isPlaceholder =
+          !p.subHeader ||
+          p.subHeader === 'Short Project Tagline' ||
+          p.description?.includes('Concise 1-2 sentence') ||
+          p.details?.includes('Detailed overview');
+        const needsUpgrade = isMatch && ((p.gallery?.length || 0) < defaultProj.gallery.length || isPlaceholder);
+        return needsUpgrade ? { ...defaultProj, id: defaultId } : p;
+      });
+    } else {
+      merged.companyProjects = [defaultProj, ...merged.companyProjects];
+    }
+  };
+
+  upgradeCompanyProjectIfNeeded('cebuana-refind', (t) => t.includes('refind') || t.includes('cebuana'));
+
+  // Upgrade older localStorage entries without losing custom edits, overwriting any placeholder fields
   const upgradeProjectIfNeeded = (defaultId, titleMatcher) => {
     const defaultProj = defaults.selfProjects.find((p) => p.id === defaultId);
     if (!defaultProj || !Array.isArray(merged.selfProjects)) return;
@@ -74,18 +110,34 @@ const mergeWithDefaults = (savedConfig) => {
     if (hasMatch) {
       merged.selfProjects = merged.selfProjects.map((p) => {
         const isMatch = p.id === defaultId || titleMatcher(p.title?.trim().toLowerCase() || '');
-        const needsUpgrade = isMatch && (p.gallery?.length || 0) < defaultProj.gallery.length;
-        return needsUpgrade ? { ...p, ...defaultProj } : p;
+        const isPlaceholder =
+          !p.subHeader ||
+          p.subHeader === 'Short Project Tagline' ||
+          p.description?.includes('Concise 1-2 sentence') ||
+          p.details?.includes('Detailed overview') ||
+          (defaultId === 'wrap-up' && p.image === '/images/viderevision.png');
+        const needsUpgrade = isMatch && ((p.gallery?.length || 0) < defaultProj.gallery.length || isPlaceholder);
+        return needsUpgrade ? { ...defaultProj, id: defaultId } : p;
       });
     } else {
       merged.selfProjects = [defaultProj, ...merged.selfProjects];
     }
   };
 
-  upgradeProjectIfNeeded('atelier-photobooth', (t) => t === 'atelier');
+  upgradeProjectIfNeeded('atelier-photobooth', (t) => t === 'atelier' || t.includes('atelier'));
   upgradeProjectIfNeeded('findiary', (t) => t.includes('findiary'));
-  upgradeProjectIfNeeded('wrap-up', (t) => t.includes('wrap up') || t.includes('wrap-up'));
+  upgradeProjectIfNeeded('wrap-up', (t) => t.includes('wrap up') || t.includes('wrap-up') || t === 'wrap up');
   upgradeProjectIfNeeded('viderevision', (t) => t.includes('videre'));
+
+  // Deduplicate selfProjects by ID
+  const seenSelfIds = new Set();
+  merged.selfProjects = merged.selfProjects.filter((p) => {
+    const key = p.id || p.title;
+    if (!key) return true;
+    if (seenSelfIds.has(key)) return false;
+    seenSelfIds.add(key);
+    return true;
+  });
 
   return merged;
 };
