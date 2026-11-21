@@ -503,6 +503,63 @@ export const companyProjects = [
 
 export const selfProjects = [
   {
+    id: 'display-viewer',
+    category: 'self',
+    categoryLabel: 'Self Project • Windows Systems & Utility',
+    title: 'Display 2 Live Viewer (Stealth Edition)',
+    subHeader: 'Low-Level Dual Display Mirroring, WDA Remote Capture Exclusion & Interactive Input Tunneling',
+    role: 'Systems & Desktop Developer',
+    description:
+      'Ultra-lightweight (~24 KB) standalone Windows utility that mirrors secondary displays in real time at 60 FPS, tunnels mouse/keyboard input with cursor snap-back, and invokes Windows SetWindowDisplayAffinity (0x00000011) to remain completely invisible to AnyDesk, TeamViewer, Zoom, and OBS.',
+    details:
+      'Display 2 Live Viewer (Stealth Edition) is an ultra-lightweight, zero-dependency desktop utility developed in C# and Win32 P/Invoke for multi-monitor workstations. Designed for developers and power users who need to monitor, control, or route windows on a secondary physical or virtual display without turning their head or revealing sensitive auxiliary screens over screen-sharing sessions. It implements hardware-accelerated DXGI 1.2 Desktop Duplication (with smooth GDI BitBlt fallback) streaming at 60 FPS, synthetic SendInput mouse and keyboard tunneling with an automatic Snap-Back cursor anchor, a dynamic App Mover using EnumWindows and SetWindowPos, and kernel-level window capture exclusion via SetWindowDisplayAffinity(WDA_EXCLUDEFROMCAPTURE) to shield auxiliary workspace visibility from remote desktop software.',
+    features: [
+      'Stealth Mode & AnyDesk Capture Shield: Applies Win32 SetWindowDisplayAffinity with WDA_EXCLUDEFROMCAPTURE (0x00000011), blacking out the viewer window on AnyDesk, TeamViewer, Zoom, and OBS while remaining 100% visible and interactive to the local user.',
+      '60 FPS DXGI & GDI Streaming: High-throughput screen capture pipeline using DXGI 1.2 Desktop Duplication with automatic GDI BitBlt fallback and Bilinear interpolation scaling.',
+      'Interactive Remote Input & Snap-Back Cursor: Direct coordinate translation mapping canvas clicks, drags, and mouse wheel scrolls to Display 2 via Win32 SendInput, with an automatic Snap-Back anchor returning the cursor to the viewer.',
+      'Inter-Monitor App Mover: Real-time top-level window enumeration (EnumWindows) allowing one-click movement of windows between Display 1 and Display 2 via SetWindowPos.',
+      'Taskbar Invisibility & System Tray Daemon: Runs with ShowInTaskbar = false and lives quietly in the Windows notification area with global hotkeys (Ctrl+H to toggle visibility, Ctrl+S for stealth mode, F11 for borderless fullscreen).',
+      'Zero-Installation Standalone Binary: Compiled directly with native Windows csc.exe into a self-contained ~24 KB executable running on .NET Framework 4.8+ with < 18 MB RAM footprint.',
+    ],
+    tags: ['C#', '.NET Framework 4.8', 'Windows Forms', 'Win32 API', 'DXGI Duplication', 'GDI+'],
+    architecture: {
+      'Desktop & UI Layer': [
+        'C# / .NET Framework 4.8',
+        'WinForms DoubleBufferedPanel (60 FPS)',
+        'System Tray NotifyIcon Daemon',
+        'Borderless Fullscreen F11 Switcher',
+        'Custom Minimalist Dark Charcoal Palette',
+      ],
+      'Screen Capture Engine': [
+        'DirectX DXGI 1.2 Desktop Duplication',
+        'Win32 GDI BitBlt Fallback Pipeline',
+        'EnumDisplaySettings Resolution Matcher',
+        'Bilinear Viewport Scaling Interpolation',
+      ],
+      'Input & Window Routing': [
+        'Win32 SendInput (Mouse & Keyboard)',
+        'Virtual-to-Physical Coordinate Transform',
+        'Snap-Back Cursor Restore Engine',
+        'EnumWindows & SetWindowPos App Mover',
+      ],
+      'Security & Capture Shield': [
+        'SetWindowDisplayAffinity (WDA_EXCLUDEFROMCAPTURE 0x11)',
+        'Anti-AnyDesk / Zoom / OBS Capture Filter',
+        'ShowInTaskbar = false Stealth Mode',
+        'Zero External Dependencies (< 24 KB Executable)',
+      ],
+    },
+    accent: 'from-emerald-600/20 to-teal-600/20',
+    border: 'border-emerald-500/30',
+    image: '/images/displayviewer-main.png',
+    gallery: [
+      { src: '/images/displayviewer-main.png', label: '60 FPS Live Viewer & Input Crosshair' },
+      { src: '/images/displayviewer-stealth.png', label: 'AnyDesk Stealth Capture Shield (WDA 0x11)' },
+      { src: '/images/displayviewer-controls.png', label: 'Display Router & App Mover Controls' },
+      { src: '/images/displayviewer-tray.png', label: 'System Tray Daemon & Context Menu' },
+    ],
+  },
+  {
     id: 'printing-kiosk',
     category: 'self',
     categoryLabel: 'Self Project • Automated IoT Kiosk & PWA',
