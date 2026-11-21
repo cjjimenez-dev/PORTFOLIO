@@ -159,6 +159,31 @@ html.light .text-teal-300 {
   color: #0d9488 !important;
 }
 
+html.light .text-emerald-400,
+html.light .text-emerald-300 {
+  color: #059669 !important;
+}
+
+html.light .text-green-400,
+html.light .text-green-300 {
+  color: #16a34a !important;
+}
+
+html.light .text-rose-400,
+html.light .text-rose-300 {
+  color: #e11d48 !important;
+}
+
+html.light .text-amber-400,
+html.light .text-amber-300 {
+  color: #d97706 !important;
+}
+
+html.light .text-cyan-400,
+html.light .text-cyan-300 {
+  color: #0891b2 !important;
+}
+
 html.light .text-purple-400 {
   color: #7c3aed !important;
 }

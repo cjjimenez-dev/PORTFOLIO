@@ -312,23 +312,61 @@ export default function ProjectModal({ project, onClose }) {
 
                   {project.architecture && (
                     <div className="grid sm:grid-cols-2 gap-4">
-                      {Object.entries(project.architecture).map(([layer, items]) => (
-                        <div key={layer} className="bg-slate-800/40 border border-white/5 rounded-xl p-4">
-                          <p className="text-xs font-bold text-blue-300 uppercase tracking-wider mb-2">
-                            {layer}
-                          </p>
-                          <div className="flex flex-wrap gap-1.5">
-                            {items.map((tech) => (
-                              <span
-                                key={tech}
-                                className="px-2.5 py-1 bg-slate-900/80 border border-white/10 rounded-md text-xs text-slate-300"
-                              >
-                                {tech}
-                              </span>
-                            ))}
+                      {Object.entries(project.architecture).map(([layer, items]) => {
+                        const lower = layer.toLowerCase();
+                        const isSecurity = lower.includes('security') || lower.includes('auth') || lower.includes('compliance') || lower.includes('cryptograph');
+                        const isDatabase = lower.includes('database') || lower.includes('storage');
+                        const isBackend = lower.includes('backend') || lower.includes('api') || lower.includes('engine') || lower.includes('service') || lower.includes('processing') || lower.includes('integration');
+                        const isFrontend = lower.includes('frontend') || lower.includes('kiosk') || lower.includes('ui');
+                        const isHardware = lower.includes('hardware') || lower.includes('print');
+                        const isMobile = lower.includes('mobile');
+
+                        const headerColor = isSecurity
+                          ? 'text-rose-400'
+                          : isDatabase
+                          ? 'text-emerald-400'
+                          : isBackend
+                          ? 'text-green-400'
+                          : isMobile
+                          ? 'text-cyan-400'
+                          : isFrontend
+                          ? 'text-blue-400'
+                          : isHardware
+                          ? 'text-amber-400'
+                          : 'text-purple-400';
+
+                        const borderAccent = isSecurity
+                          ? 'border-rose-500/20 bg-rose-500/5'
+                          : isDatabase
+                          ? 'border-emerald-500/20 bg-emerald-500/5'
+                          : isBackend
+                          ? 'border-green-500/20 bg-green-500/5'
+                          : isMobile
+                          ? 'border-cyan-500/20 bg-cyan-500/5'
+                          : isFrontend
+                          ? 'border-blue-500/20 bg-blue-500/5'
+                          : isHardware
+                          ? 'border-amber-500/20 bg-amber-500/5'
+                          : 'border-white/5 bg-slate-800/40';
+
+                        return (
+                          <div key={layer} className={`border rounded-xl p-4 transition-all ${borderAccent}`}>
+                            <p className={`text-xs font-bold uppercase tracking-wider mb-2.5 ${headerColor}`}>
+                              {layer}
+                            </p>
+                            <div className="flex flex-wrap gap-1.5">
+                              {items.map((tech) => (
+                                <span
+                                  key={tech}
+                                  className="px-2.5 py-1 bg-slate-900/80 border border-white/10 rounded-md text-xs text-slate-300"
+                                >
+                                  {tech}
+                                </span>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   )}
                 </div>

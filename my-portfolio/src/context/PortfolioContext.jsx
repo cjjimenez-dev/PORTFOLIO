@@ -26,7 +26,10 @@ const buildDefaultConfig = () => ({
   heroStats: [...defaultHeroStats],
   capabilityPillars: defaultCapabilityPillars.map((item, idx) => ({
     ...omitIcons(item),
-    iconKey: ['globe', 'server', 'smartphone', 'desktop', 'shield'][idx] || 'globe',
+    iconKey:
+      item.iconKey ||
+      ['globe', 'server', 'database', 'security', 'desktop', 'smartphone', 'devops'][idx] ||
+      'globe',
   })),
   softSkills: [...defaultSoftSkills],
   languages: [...defaultLanguages],
@@ -53,15 +56,14 @@ const mergeWithDefaults = (savedConfig) => {
   const defaults = buildDefaultConfig();
   const merged = { ...defaults, ...savedConfig };
 
-  // Ensure new Desktop Applications pillar is present if saved config predates it
-  if (
+  // Ensure newly separated capability pillars (Frontend, Backend, Database, Security, etc.) are present
+  const hasSeparatedPillars =
     Array.isArray(merged.capabilityPillars) &&
-    !merged.capabilityPillars.some((p) => p.title === 'Desktop Applications')
-  ) {
-    const desktopPillar = defaults.capabilityPillars.find((p) => p.title === 'Desktop Applications');
-    if (desktopPillar) {
-      merged.capabilityPillars = [...merged.capabilityPillars, desktopPillar];
-    }
+    merged.capabilityPillars.some((p) => p.title?.includes('Databases')) &&
+    merged.capabilityPillars.some((p) => p.title?.includes('Security'));
+
+  if (!hasSeparatedPillars || (merged.capabilityPillars || []).length < defaults.capabilityPillars.length) {
+    merged.capabilityPillars = defaults.capabilityPillars;
   }
 
   // Ensure BCS Systems experience is present in primaryExperiences
@@ -149,6 +151,7 @@ const mergeWithDefaults = (savedConfig) => {
     }
   };
 
+  upgradeProjectIfNeeded('printing-kiosk', (t) => t.includes('printing') || t.includes('kiosk'));
   upgradeProjectIfNeeded('atelier-photobooth', (t) => t === 'atelier' || t.includes('atelier'));
   upgradeProjectIfNeeded('findiary', (t) => t.includes('findiary'));
   upgradeProjectIfNeeded('wrap-up', (t) => t.includes('wrap up') || t.includes('wrap-up') || t === 'wrap up');
@@ -163,6 +166,27 @@ const mergeWithDefaults = (savedConfig) => {
     seenSelfIds.add(key);
     return true;
   });
+
+  // Ensure all projects inherit separated architecture layers (Frontend, Backend, Database, Security)
+  if (Array.isArray(merged.companyProjects)) {
+    merged.companyProjects = merged.companyProjects.map((p) => {
+      const defaultMatch = defaults.companyProjects.find((dp) => dp.id === p.id);
+      if (defaultMatch?.architecture) {
+        return { ...p, architecture: defaultMatch.architecture };
+      }
+      return p;
+    });
+  }
+
+  if (Array.isArray(merged.selfProjects)) {
+    merged.selfProjects = merged.selfProjects.map((p) => {
+      const defaultMatch = defaults.selfProjects.find((dp) => dp.id === p.id);
+      if (defaultMatch?.architecture) {
+        return { ...p, architecture: defaultMatch.architecture };
+      }
+      return p;
+    });
+  }
 
   return merged;
 };

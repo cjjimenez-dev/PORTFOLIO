@@ -1,13 +1,17 @@
-import { Brain, Globe, Layers, Medal, Monitor, Server, ShieldCheck, Smartphone } from 'lucide-react';
+import { Brain, Database, GitBranch, Globe, Layers, Medal, Monitor, Server, ShieldCheck, Smartphone } from 'lucide-react';
 import { toolGroups } from '../data/portfolioData';
 import { usePortfolio } from '../context/PortfolioContext';
 
 const PILLAR_ICONS = {
   globe: Globe,
   server: Server,
+  database: Database,
+  security: ShieldCheck,
   smartphone: Smartphone,
   desktop: Monitor,
   shield: ShieldCheck,
+  devops: GitBranch,
+  git: GitBranch,
 };
 
 export default function Skills() {
