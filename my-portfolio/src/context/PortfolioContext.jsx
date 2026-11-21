@@ -151,6 +151,7 @@ const mergeWithDefaults = (savedConfig) => {
     }
   };
 
+  upgradeProjectIfNeeded('our-little-world', (t) => t.includes('world') || t.includes('little'));
   upgradeProjectIfNeeded('display-viewer', (t) => t.includes('display') || t.includes('viewer'));
   upgradeProjectIfNeeded('printing-kiosk', (t) => t.includes('printing') || t.includes('kiosk'));
   upgradeProjectIfNeeded('atelier-photobooth', (t) => t === 'atelier' || t.includes('atelier'));

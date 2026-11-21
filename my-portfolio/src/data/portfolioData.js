@@ -503,6 +503,64 @@ export const companyProjects = [
 
 export const selfProjects = [
   {
+    id: 'our-little-world',
+    category: 'self',
+    categoryLabel: 'Self Project • Couple Keepsake Web App',
+    title: 'Our Little World — Private Couple Keepsake & Memory Book',
+    subHeader: 'Physical-Style Scrapbook Spreads, Shared Travel Wishlists, Couple Garage & Supabase RLS',
+    role: 'Full-Stack Web Developer & UI/UX Designer',
+    description:
+      'A private, invite-only digital keepsake web app designed for couples—featuring a physical-style scrapbook memory book with 3D page turns, an anniversary countdown dashboard, a shared travel bucket list with vehicle badges, and a multi-vehicle couple garage backed by Supabase PostgreSQL RLS.',
+    details:
+      'Our Little World is a specialized, private web application engineered to preserve romantic relationship milestones, everyday memories, travel bucket lists, and shared vehicle road trips. Built with React 19, TypeScript, Tailwind CSS v4, and Framer Motion, it features a physical-style scrapbook spread with dual his-and-her perspective cards, realistic photo-corner mounts, washi tape styling, and interactive 3D perspective page flips. Couples can monitor live relationship duration timers with upcoming celebration pills, curate places to go with vehicle compatibility tags ("Best on Bike" vs "Best in Car") and estimated budgets, manage dual vehicles in a shared garage with maintenance logs and pre-ride checklists, and export an entire self-contained keepsake memory book as offline HTML. Secured with a strict 2-user invite-only policy and Supabase PostgreSQL Row-Level Security (RLS) guaranteeing total privacy.',
+    features: [
+      'Physical-Style Scrapbook Memory Book: Two-page opened keepsake album spread with textured paper styling, photo-corner mounts, washi tape tags, his-and-her dual commentary, and 3D/flat perspective page flips via Framer Motion.',
+      'Anniversary & Milestone Dashboard: Real-time relationship duration counter (years, months, days, minutes, seconds), celebration countdown pills, and an interactive love notes pinboard.',
+      'Travel Wishlist & Destination Logs: Interactive "Places To Go" and "Places Done" bucket list with vehicle compatibility badges (Best on Bike / Best in Car), budgets, ratings, and Google Maps location integration.',
+      'Shared Couple Garage & Ride Checklist: Multi-vehicle management (motorcycle & car) tracking specifications, odometer milestones, scheduled maintenance logs, and pre-ride safety checklists.',
+      'Offline HTML Keepsake Book Exporter: Standalone client-side generator producing an all-in-one, portable, offline-viewable HTML memory book with embedded photos and notes.',
+      'Strict 2-User Invite-Only RLS Security: Hardened PostgreSQL Row-Level Security (current_couple_id()), encrypted sessions, signed media storage URLs (3600s TTL), and zero public indexing.',
+    ],
+    tags: ['React 19', 'TypeScript', 'Tailwind CSS v4', 'Supabase', 'PostgreSQL', 'Framer Motion', 'PWA'],
+    architecture: {
+      'Frontend & Scrapbook UI': [
+        'React 19 & TypeScript (Vite 8)',
+        'Tailwind CSS v4 & Lucide Icons',
+        'Framer Motion 3D Page Turn Engine',
+        'HTML5 Canvas Client-Side Image Compressor',
+        'Physical Book Styling (Corners, Washi Tape, Paper Textures)',
+      ],
+      'Backend & Serverless': [
+        'Supabase Edge Functions (Deno Runtime)',
+        'Realtime WebSocket Synchronized Channels',
+        'AI Assistant & Google Map Link Resolvers',
+        'Vercel Edge Global Content Distribution',
+      ],
+      'Database & Storage Engine': [
+        'Supabase Managed PostgreSQL',
+        'Private Couple Media Storage Buckets',
+        'Time-Limited Signed Media URLs (3600s TTL)',
+        'LocalStorage Offline Journaling Fallback Engine',
+      ],
+      'Security & Access Control': [
+        'Strict 2-User Invite-Only Couple Pairing',
+        'PostgreSQL Row-Level Security (current_couple_id())',
+        'Zero Public Crawling & Robots Disallow Filter',
+        'Client-Side Sanitization & Secure Cookie Auth',
+      ],
+    },
+    accent: 'from-rose-600/20 to-pink-600/20',
+    border: 'border-rose-500/30',
+    image: '/images/ourlittleworld-book.png',
+    gallery: [
+      { src: '/images/ourlittleworld-book.png', label: 'Physical Memory Book Spread & Photo Corners' },
+      { src: '/images/ourlittleworld-dashboard.png', label: 'Anniversary Live Clock & Love Notes Pinboard' },
+      { src: '/images/ourlittleworld-places.png', label: 'Places To Go Travel Wishlist & Ride Badges' },
+      { src: '/images/ourlittleworld-garage.png', label: 'Couple Shared Garage & Maintenance Logs' },
+      { src: '/images/ourlittleworld-cover.png', label: 'Keepsake Memory Book Hardbound Cover' },
+    ],
+  },
+  {
     id: 'display-viewer',
     category: 'self',
     categoryLabel: 'Self Project • Windows Systems & Utility',
