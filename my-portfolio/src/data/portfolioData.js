@@ -329,6 +329,52 @@ export const companyProjects = [
     ],
   },
   {
+    id: 'discount-converter',
+    category: 'company',
+    categoryLabel: 'Company Production System • Desktop POS Utility',
+    company: 'VCSI / Retail POS Operations',
+    title: 'POS Discount & VAT Converter',
+    subHeader: 'Floating Cashier Touchscreen Widget, Net Base Tax Resolver & ESC/POS Thermal Printing',
+    role: 'MIS Programmer / Desktop Developer',
+    description:
+      'Production Windows desktop utility designed for retail checkout lanes to accurately convert fixed peso discount amounts into exact percentage rates, backing out Philippine 12% VAT and service charge for POS entry.',
+    details:
+      'Developed in C# and .NET Framework 4.8 with Guna.UI2 for front-of-house cashier terminals and retail POS registers. In retail environments where older or strict POS systems only accept discount percentage rates, cashiers frequently need to apply specific peso promo amounts, vouchers, or manual coupons. This lightweight utility floats on top of the POS touchscreen, calculates the true net base amount by backing out 12% Philippine VAT and 10% Service Charge, derives the exact 2-decimal discount percentage, and immediately outputs thermal audit receipts via ESC/POS direct COM serial port or Windows print controller.',
+    features: [
+      'Touchscreen-Optimized NumberPad: Custom on-screen numeric keypad with Philippine currency denomination shortcuts (₱20, ₱50, ₱100, ₱200, ₱500, ₱1,000) for fast cashier touch entry.',
+      'Accurate Tax & Service Charge Back-Out: Dynamically computes divisor (1 + VAT% + SC%) to derive the true pre-tax Net Base Amount from gross subtotal before computing percentage discounts.',
+      'AwayFromZero Half-Up Rounding: Implements financial midpoint rounding (AwayFromZero) ensuring 2-decimal percentage output matches POS accounting registers down to ₱0.00 drift.',
+      'ESC/POS Thermal Printing Engine: Direct COM serial port hardware communication (9600 baud, 8-N-1) sending raw ESC/POS commands and paper-cut sequences (1B69) alongside standard Windows PrintDocument support.',
+      'Floating Always-On-Top Mini Widget: Compact 200x50 desktop bar that docks unobtrusively over full-screen POS register applications, persisting screen coordinates across cashier shifts.',
+      'Quick Keyboard Hotkey Configuration: Pressing F1 launches an administrative settings panel to configure COM ports, default printer routing, and store-specific VAT/service charge defaults.',
+    ],
+    tags: ['C#', '.NET Framework 4.8', 'Windows Forms', 'Guna.UI2', 'ESC/POS', 'Hardware Serial Port'],
+    architecture: {
+      'Desktop & UI': [
+        'C# / .NET Framework 4.8',
+        'Windows Forms (WinForms)',
+        'Guna.UI2 WinForms Component Suite',
+        'Always-On-Top Floating Form (RestoreBounds persistence)',
+        'Touchscreen On-Screen Keypad (NumberPad)',
+      ],
+      'Hardware & Printing': [
+        'System.IO.Ports (SerialPort COM Communication)',
+        'ESC/POS Hex Command Sequences (Paper Cut 1B69)',
+        'System.Drawing.Printing (Standard PrintController)',
+        '80mm POS Thermal Slip Layout Formatting',
+      ],
+    },
+    accent: 'from-blue-600/20 to-sky-600/20',
+    border: 'border-blue-500/30',
+    image: '/images/discount-converter-main.png',
+    gallery: [
+      { src: '/images/discount-converter-main.png', label: 'POS Discount & Subtotal Converter' },
+      { src: '/images/discount-converter-numpad.png', label: 'Touchscreen NumberPad & Denomination Shortcuts' },
+      { src: '/images/discount-converter-config.png', label: 'ESC/POS Thermal Print Setup & Tax Defaults' },
+      { src: '/images/discount-converter-widget.png', label: 'Floating Desktop Cashier Action Widget' },
+    ],
+  },
+  {
     id: 'lucky-boba-pos',
     category: 'company',
     categoryLabel: 'Company Production System',
@@ -617,7 +663,11 @@ export const primaryExperiences = [
       'Designed multi-CTE T-SQL reconciliation queries resolving centavo decimal rounding variances, BIR 12% VAT, and SC/PWD discounts across hundreds of branch stores.',
       'Engineered high-throughput Excel report generation using ClosedXML, SQLite projection caching, and isolated process bridges.',
     ],
-    linkedProjects: ['Cebuana ReFind Program', 'WBox–AutoCount Bridge Middleware'],
+    linkedProjects: [
+      'Cebuana ReFind Program',
+      'WBox–AutoCount Bridge Middleware',
+      'POS Discount & VAT Converter',
+    ],
   },
   {
     role: 'IT Programmer',
