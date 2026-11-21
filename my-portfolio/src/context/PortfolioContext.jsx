@@ -99,6 +99,27 @@ const mergeWithDefaults = (savedConfig) => {
   };
 
   upgradeCompanyProjectIfNeeded('cebuana-refind', (t) => t.includes('refind') || t.includes('cebuana'));
+  upgradeCompanyProjectIfNeeded('wbox-autocount', (t) => t.includes('wbox') || t.includes('autocount'));
+
+  // Ensure BCS Systems experience has up-to-date linkedProjects
+  if (Array.isArray(merged.primaryExperiences)) {
+    const bcsExp = merged.primaryExperiences.find((e) => e.company?.includes('BCS Systems'));
+    if (bcsExp && Array.isArray(bcsExp.linkedProjects)) {
+      if (!bcsExp.linkedProjects.includes('WBox–AutoCount Bridge Middleware')) {
+        bcsExp.linkedProjects = [...bcsExp.linkedProjects, 'WBox–AutoCount Bridge Middleware'];
+      }
+    }
+  }
+
+  // Deduplicate companyProjects by ID
+  const seenCompanyIds = new Set();
+  merged.companyProjects = merged.companyProjects.filter((p) => {
+    const key = p.id || p.title;
+    if (!key) return true;
+    if (seenCompanyIds.has(key)) return false;
+    seenCompanyIds.add(key);
+    return true;
+  });
 
   // Upgrade older localStorage entries without losing custom edits, overwriting any placeholder fields
   const upgradeProjectIfNeeded = (defaultId, titleMatcher) => {
