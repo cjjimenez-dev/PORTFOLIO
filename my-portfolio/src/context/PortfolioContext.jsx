@@ -102,6 +102,7 @@ const mergeWithDefaults = (savedConfig) => {
 
   upgradeCompanyProjectIfNeeded('cebuana-refind', (t) => t.includes('refind') || t.includes('cebuana'));
   upgradeCompanyProjectIfNeeded('wbox-autocount', (t) => t.includes('wbox') || t.includes('autocount'));
+  upgradeCompanyProjectIfNeeded('sm-mall-linking', (t) => t.includes('sm') && (t.includes('linking') || t.includes('sia')));
   upgradeCompanyProjectIfNeeded('discount-converter', (t) => t.includes('discount') || t.includes('converter'));
 
   // Ensure BCS Systems experience has up-to-date linkedProjects
@@ -110,6 +111,9 @@ const mergeWithDefaults = (savedConfig) => {
     if (bcsExp && Array.isArray(bcsExp.linkedProjects)) {
       if (!bcsExp.linkedProjects.includes('WBox–AutoCount Bridge Middleware')) {
         bcsExp.linkedProjects = [...bcsExp.linkedProjects, 'WBox–AutoCount Bridge Middleware'];
+      }
+      if (!bcsExp.linkedProjects.includes('SM Mall Linking (SIA)')) {
+        bcsExp.linkedProjects = [...bcsExp.linkedProjects, 'SM Mall Linking (SIA)'];
       }
       if (!bcsExp.linkedProjects.includes('POS Discount & VAT Converter')) {
         bcsExp.linkedProjects = [...bcsExp.linkedProjects, 'POS Discount & VAT Converter'];
