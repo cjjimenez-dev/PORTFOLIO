@@ -155,6 +155,8 @@ const mergeWithDefaults = (savedConfig) => {
     }
   };
 
+  upgradeProjectIfNeeded('remotedesk', (t) => t.includes('remote') || t.includes('remotedesk'));
+  upgradeProjectIfNeeded('calling-card-studio', (t) => t.includes('calling') || t.includes('card studio') || t.includes('card generator'));
   upgradeProjectIfNeeded('our-little-world', (t) => t.includes('world') || t.includes('little'));
   upgradeProjectIfNeeded('display-viewer', (t) => t.includes('display') || t.includes('viewer'));
   upgradeProjectIfNeeded('printing-kiosk', (t) => t.includes('printing') || t.includes('kiosk'));

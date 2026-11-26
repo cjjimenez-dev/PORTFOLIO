@@ -55,8 +55,10 @@ import {
   SiBootstrap,
   SiPrisma,
   SiAndroid,
+  SiWebrtc,
+  SiCloudflare,
 } from 'react-icons/si';
-import { FaAws, FaDatabase, FaFileExcel, FaJava, FaWindows } from 'react-icons/fa';
+import { FaAws, FaDatabase, FaFileExcel, FaJava, FaWindows, FaQrcode } from 'react-icons/fa';
 import { TbBrandCSharp } from 'react-icons/tb';
 
 export const profile = {
@@ -246,6 +248,9 @@ const TAG_ICON_RULES = [
   { match: (t) => t.includes('aws'), icon: FaAws },
   { match: (t) => t.includes('github'), icon: SiGithub },
   { match: (t) => t === 'git', icon: SiGit },
+  { match: (t) => t.includes('webrtc'), icon: SiWebrtc },
+  { match: (t) => t.includes('cloudflare'), icon: SiCloudflare },
+  { match: (t) => t.includes('qr') || t.includes('qrcoder'), icon: FaQrcode },
 ];
 
 export const getTagIcon = (tag) => {
@@ -561,6 +566,128 @@ export const companyProjects = [
 ];
 
 export const selfProjects = [
+  {
+    id: 'remotedesk',
+    category: 'self',
+    categoryLabel: 'Self Project • Windows Systems & Network Software',
+    title: 'RemoteDesk — High-Performance Remote Desktop Suite',
+    subHeader: '.NET 10 & WPF, WebRTC P2P, FFmpeg H.264 Video Streaming, Cloudflare Quick Tunnels & Zero-Config LAN Discovery',
+    role: 'Lead Desktop & Systems Software Engineer',
+    description:
+      'A self-contained Windows remote desktop and fleet orchestration suite built with .NET 10, WPF, WebRTC (SIPSorcery), FFmpeg H.264 video streaming, and SignalR—featuring an AnyDesk-style dual Host/Viewer workflow, automatic LAN UDP discovery, and zero-config Cloudflare Quick Tunnels for remoting across the internet.',
+    details:
+      'RemoteDesk is an enterprise-grade Windows remote desktop application engineered in C# and .NET 10. Inspired by AnyDesk and TeamViewer, it features a unified dual Host/Viewer architecture that allows any instance to instantly share or control remote desktops without third-party accounts or paid VPS relays. The platform features low-latency DXGI Desktop Duplication with hardware-accelerated FFmpeg H.264 encoding over WebRTC data channels, automatic UDP peer discovery across local Wi-Fi/LAN, and built-in Cloudflare Quick Tunnels for zero-port-forwarding NAT traversal. Built with security at its foundation, it implements ECDSA (nistP256) cryptographic device identities with DPAPI key protection and signed SDP DTLS fingerprint verification to eliminate Man-in-the-Middle (MITM) risks. Includes an unattended Windows Service host with Session 0 SendSAS elevation, ConPTY remote terminal, WASAPI audio streaming, chunked file transfer, and an integrated Fleet Management REST API and Web Dashboard.',
+    features: [
+      'Unified AnyDesk-Style Dual Host & Viewer: Integrated desktop client featuring an instant-connect dual pane (This Desk & Remote Desk), recent sessions history, and live Light/Dark theme switching.',
+      'Hardware-Accelerated Capture & Low-Latency Streaming: Real-time DXGI Desktop Duplication with GDI fallback, paired with FFmpeg H.264 encoding/decoding and adaptive quality controllers.',
+      'Zero-Config LAN UDP Discovery: Broadcasts and detects peers on local Wi-Fi/LAN over UDP port 5004, enabling 1-click automatic ID-to-IP routing without external servers.',
+      'Embedded Cloudflare Quick Tunnels: Integrated cloudflared tunnel orchestration generating shareable DeviceId@tunnel-host.trycloudflare.com links for internet remoting with zero port forwarding.',
+      'Cryptographic Identity & Anti-MITM Verification: ECDSA (nistP256) device identities secured in Windows DPAPI, signed connection tokens, and signed SDP DTLS fingerprint verification.',
+      'Comprehensive Remote Session Tooling: Win32 input injection (keyboard/mouse/Unicode), emergency kill switch (Ctrl+Alt+Shift+Esc), multi-monitor switching, WASAPI audio playback, chunked file transfer, clipboard sync, live chat, and ConPTY remote terminal.',
+      'Fleet Management REST API & Web Dashboard: Embedded ASP.NET Core server on port 5001 exposing device registration, heartbeats, remote command dispatch, audit logs, and self-hosted update manifests.',
+    ],
+    tags: ['C#', '.NET 10', 'WPF', 'WebRTC', 'FFmpeg H.264', 'SignalR', 'Cloudflare Tunnels', 'Win32 API'],
+    architecture: {
+      'Desktop & UI Layer': [
+        'C# / .NET 10 WPF (Windows Presentation Foundation)',
+        'AnyDesk-Style Dual Pane (This Desk & Remote Desk)',
+        'Dynamic Live Light / Dark Theme Switching (ThemeManager)',
+        'Interactive In-Session Control Bar & HUD Telemetry',
+        'Saved Desktops Address Book & Custom Server Drawer',
+      ],
+      'Streaming & Transport': [
+        'WebRTC (SIPSorcery) Peer-to-Peer Data Channels',
+        'DXGI Desktop Duplication & GDI Fallback Capturer',
+        'FFmpeg H.264 Hardware-Accelerated Video Encoder/Decoder',
+        'SignalR WebSocket Signaling Client & Hub (:5000)',
+        'Adaptive Quality Presets (Speed, Balanced, Quality)',
+      ],
+      'Networking & Discovery': [
+        'Zero-Config UDP Peer Broadcast & Auto-Discovery (:5004)',
+        'Embedded Cloudflare Quick Tunnels (*.trycloudflare.com)',
+        'STUN / TURN Relay Fallback & COTURN Integration',
+        'Named Pipe IPC for Session 0 Elevation (RemoteDesk_Service_Agent_Ipc)',
+      ],
+      'Security & Fleet Management': [
+        'ECDSA (nistP256) Cryptographic Device Keys (DpapiDeviceKeyStore)',
+        'Signed SDP DTLS Fingerprint Anti-MITM Verification',
+        'Emergency Kill Switch (Ctrl+Alt+Shift+Esc)',
+        'Fleet Management REST API & Web Dashboard (:5001)',
+        'Cryptographically Signed Self-Updating Engine (RSA/SHA-256)',
+      ],
+    },
+    accent: 'from-blue-600/20 to-cyan-600/20',
+    border: 'border-cyan-500/30',
+    image: '/images/remotedesk-main.png',
+    gallery: [
+      { src: '/images/remotedesk-main.png', label: 'AnyDesk-Style Dual Host & Viewer (Light Theme)' },
+      { src: '/images/remotedesk-dark.png', label: 'High-Contrast Dark Theme Workspace' },
+      { src: '/images/remotedesk-network.png', label: 'Custom Signaling Server & Network Drawer' },
+      { src: '/images/remotedesk-addressbook.png', label: 'Saved PCs & Address Book Manager' },
+      { src: '/images/remotedesk-session.png', label: 'In-Session Stream Toolbar, Quality Controls & HUD' },
+    ],
+  },
+  {
+    id: 'calling-card-studio',
+    category: 'self',
+    categoryLabel: 'Self Project • Desktop Graphic & Print Production',
+    title: 'Calling Card Studio — Professional Business Card Designer & Imposition Engine',
+    subHeader: '.NET 10 & WPF, 300 DPI Export, Vector QR Codes, Multi-Up Sheet Imposition & Duplex Registration',
+    role: 'Lead Desktop Software Engineer & UI/UX Designer',
+    description:
+      'A professional Windows desktop software built with C# and .NET 10 (WPF) for visual double-sided calling card design and commercial print production with automated multi-up sheet imposition, crop marks, and mirrored duplex alignment.',
+    details:
+      'Calling Card Studio is an Emil Kowalski-inspired desktop design and print production application engineered in C# and .NET 10 WPF. Built to bridge the gap between graphic design and commercial print output, it provides a full-featured visual card layout canvas alongside an industrial print imposition engine. Users can design both front and back card sides with rich typography, imported corporate logos, vector shapes, dividers, and automatic QR code generation (supporting vCard contact details and website URLs via QRCoder). The built-in Print Queue and Imposition engine automates laying out multiple card quantities onto standard Letter or A4 sheets in 10-Up (2x5), 8-Up, 9-Up, or 12-Up configurations with auto-centering, corner crop marks (L-ticks), cut guidelines, and manual 2-pass duplex printing with column mirroring for exact front-to-back registration.',
+    features: [
+      'Visual Double-Sided Card Designer: Real-time dual-sided (Front & Back) card canvas with safe area margin (green guide) and bleed/cut line (red guide) visualization.',
+      'Vector QR Code Generator: Built-in QRCoder integration supporting dynamic vCard contacts auto-filled from card text, website URLs, and custom payloads with transparent foreground/background styling.',
+      'Full-Featured Canvas Productivity: Multi-element selection box, grouping/ungrouping (Ctrl+G / Ctrl+Shift+G), 50-step Undo/Redo (Ctrl+Z / Ctrl+Y), edge/center snapping, and layer index controls.',
+      'Commercial Print Imposition Engine: Automatically arranges cards onto Letter and A4 paper in Standard 10-Up (2x5), 8-Up (2x4), 9-Up (3x3), or 12-Up (4x3) grids with auto-centering.',
+      'Mirrored Duplex Alignment: Front-to-back print registration with automatic column-reversal for back sheets in manual 2-pass duplex and automatic hardware duplex modes.',
+      '300 DPI High-Resolution Export: Direct 300 DPI rasterization for commercial print shops alongside full sheet preview zoom and Windows print controller integration.',
+      'Continuous Auto-Save & Preset Library: Presets stored in LocalAppData with live auto-save and standalone .cct.json template import/export.',
+    ],
+    tags: ['C#', '.NET 10', 'WPF', 'QRCoder', 'Print Imposition', 'Vector Graphics', 'Desktop App'],
+    architecture: {
+      'Desktop & Canvas Layer': [
+        'C# / .NET 10 Windows Presentation Foundation (WPF)',
+        'Emil Kowalski Design Tokens & Crisp Zinc Styling',
+        'Interactive Canvas with Selection, Drag, Resize & Multi-Select',
+        'Group / Ungroup (Ctrl+G / Ctrl+Shift+G) & Undo/Redo Engine',
+        'Front & Back Dual-Sided Visual Card Layout Workbench',
+      ],
+      'Design & Vector Engine': [
+        'High-Resolution 300 DPI Render Engine (CardRenderer)',
+        'QRCoder Vector QR Code Generator (vCard & URL)',
+        'Multi-Layer Z-Index & Edge/Center Snapping Controls',
+        'Full-Bleed Background Swatches & Image Import Engine',
+        'Safe Area Margin & Bleed/Cut Line Visual Guidelines',
+      ],
+      'Imposition & Duplex Print': [
+        'Print Imposition Engine (10-Up, 8-Up, 9-Up, 12-Up Grids)',
+        'Letter & A4 Multi-Orientation Paper Format Support',
+        'Manual 2-Pass Duplex with Column-Mirrored Back Alignment',
+        'Corner Crop Marks (L-ticks) & Cutting Grid Guidelines',
+        'Full Sheet Imposition Preview & Windows Print Controller',
+      ],
+      'Data & Persistence': [
+        'JSON Template Storage (.cct.json Schema)',
+        'Continuous Auto-Save & App Preset Library (%LocalAppData%)',
+        'Print Queue Management with Per-Card Quantities',
+        'Standalone High-DPI PNG/JPG Image Exporter',
+      ],
+    },
+    accent: 'from-amber-600/20 to-orange-600/20',
+    border: 'border-amber-500/30',
+    image: '/images/callingcard-designer.png',
+    gallery: [
+      { src: '/images/callingcard-designer.png', label: 'Double-Sided Visual Card Designer (Front Side)' },
+      { src: '/images/callingcard-back.png', label: 'Back Side Designer with Vector QR Code & vCard' },
+      { src: '/images/callingcard-imposition.png', label: '10-Up Sheet Imposition Engine & Duplex Registration' },
+      { src: '/images/callingcard-sheet.png', label: 'Full Production 10-Up Sheet Print with Crop Marks' },
+      { src: '/images/callingcard-card.png', label: 'High-Resolution 300 DPI Card Typography Export' },
+    ],
+  },
   {
     id: 'our-little-world',
     category: 'self',
